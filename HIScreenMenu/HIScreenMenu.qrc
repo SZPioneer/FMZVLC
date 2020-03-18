@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>img/Btn01-max.png</file>
+        <file>img/Btn01-min.png</file>
+        <file>img/zoomMax.png</file>
+        <file>img/zoomMin.png</file>
+    </qresource>
+</RCC>
