@@ -4,5 +4,12 @@
         <file>img/Btn01-min.png</file>
         <file>img/zoomMax.png</file>
         <file>img/zoomMin.png</file>
+        <file>img/btnAdd.png</file>
+        <file>style.qss</file>
+        <file>img/btnAdd_click.png</file>
+        <file>img/btnMinus.png</file>
+        <file>img/btnMinus_click.png</file>
+        <file>img/zoomSel.png</file>
+        <file>img/zoomUnSel.png</file>
     </qresource>
 </RCC>

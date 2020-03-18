@@ -1,0 +1,46 @@
+#ifndef QMYUISLOT_H
+#define QMYUISLOT_H
+
+#include <QObject>
+
+class QMyUISlot : public QObject
+{
+    Q_OBJECT
+private:
+    explicit QMyUISlot(QObject *parent = nullptr);
+
+    static QMyUISlot*       s_pInst;
+
+public:
+    static QMyUISlot*   GetInstance()
+    {
+        if( s_pInst == NULL ){
+            s_pInst     = new QMyUISlot();
+        }
+        return s_pInst;
+    }
+    static void         Release()
+    {
+        if( s_pInst ){
+            delete s_pInst;
+        }
+    }
+
+    int     zoomStep()
+    {
+        return m_iZoomStep;
+    }
+    int    onClickZoomAdd();
+    int    onClickZoomMinus();
+
+signals:
+
+
+public slots:
+
+
+private:
+    int     m_iZoomStep         = 0;            //0=<val<=5
+};
+
+#endif // QMYUISLOT_H

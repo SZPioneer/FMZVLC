@@ -1,0 +1,13 @@
+QPushButton#pushButton_max{
+    border-image: url(:/img/btnAdd.png);
+}
+QPushButton#pushButton_max:pressed{
+    border-image: url(:/img/btnAdd_click.png);
+}
+QPushButton#pushButton_min{
+    border-image: url(:/img/btnMinus.png);
+}
+QPushButton#pushButton_min:pressed{
+    border-image: url(:/img/btnMinus_click.png);
+}
+

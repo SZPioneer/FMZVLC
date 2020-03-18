@@ -14,14 +14,20 @@ public:
 
 protected:
     virtual void paintEvent(QPaintEvent *event) override;
+    virtual void resizeEvent(QResizeEvent *event) override;
 
 signals:
 
 public slots:
 
+private slots:
+    void on_pushButton_min_clicked();
+
+    void on_pushButton_max_clicked();
+
 private:
     Ui::QDlgZoombar*    ui              = NULL;
-
+    QPushButton*        m_pBtn[5];
 };
 
 #endif // QDLGZOOMBAR_H

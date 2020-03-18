@@ -22,13 +22,15 @@ SOURCES += \
     mainwindow.cpp \
     qmytoolbutton.cpp \
     qwidgetcentral.cpp \
-    qdlgzoombar.cpp
+    qdlgzoombar.cpp \
+    qmyuislot.cpp
 
 HEADERS += \
     mainwindow.h \
     qmytoolbutton.h \
     qwidgetcentral.h \
-    qdlgzoombar.h
+    qdlgzoombar.h \
+    qmyuislot.h
 
 FORMS += \
     mainwindow.ui \
