@@ -11,6 +11,18 @@ QPushButton#pushButton_min:pressed{
     border-image: url(:/img/btnMinus_click.png);
 }
 
+QPushButton#DownButton{
+    background-color:   rgb(29,59,166, 10);
+    border-image:       url(:/img/downMin.png);
+}
+QPushButton#DownButton:pressed{
+    border-image: url(:/img/downMax.png);
+}
 
-
-
+QPushButton#UpButton{
+    background-color:   rgb(29,59,166,10);
+    border-image:       url(:/img/downMin.png);
+}
+QPushButton#UpButton:pressed{
+    border-image: url(:/img/downMax.png);
+}

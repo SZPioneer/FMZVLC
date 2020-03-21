@@ -8,6 +8,7 @@
 #include "QDlgBrightbar.h"
 #include "qdlgdisplay.h"
 #include "qdlgpresetbar.h"
+#include <QPushButton>
 
 class QWidgetCentral : public QWidget
 {
@@ -28,6 +29,8 @@ protected:
 signals:
 public slots:
     void    onClickBtn(QMyToolButton* pBtn);
+    void    onClickDown(bool);
+    void    onClickUp(bool);
 
 private:
     QList<QMyToolButton*>       m_lsMainBtn;
@@ -39,7 +42,9 @@ private:
     QDlgPresetBar*              m_pDlgPresetbar = NULL;
     QDialog*                    m_pCurToolbar   = NULL;
     int                         m_iBtnShowPos   = 0;
-    int                         m_iBtnShowNum   = 0;
+    int                         m_iBtnShowNum   = 7;
+    QPushButton*                m_pBtnDown;
+    QPushButton*                m_pBtnUp;
 };
 
 #endif // QWIDGETCENTRAL_H

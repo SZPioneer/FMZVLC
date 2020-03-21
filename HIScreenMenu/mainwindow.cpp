@@ -16,7 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
     setCentralWidget(m_pWidgetCentral);
 
     QRect       rcMain      = QApplication::desktop()->screenGeometry();
-    rcMain.setTop(40);
+    rcMain.setTop(80);
     rcMain.setBottom(rcMain.bottom()-40);
     rcMain.setLeft(30);
     rcMain.setRight(230);

@@ -36,6 +36,16 @@ QWidgetCentral::QWidgetCentral(QWidget *parent) : QWidget(parent)
     connect(pBtn, SIGNAL(clickBtn(QMyToolButton*)), this, SLOT(onClickBtn(QMyToolButton*)));
     m_lsMainBtn.push_back(pBtn);
 
+    m_pBtnDown          = new QPushButton(this);
+    m_pBtnDown->setObjectName("DownButton");
+    m_pBtnDown->setFixedSize(64,39);
+    connect(m_pBtnDown, SIGNAL(clicked(bool)), this, SLOT(onClickDown(bool)));
+
+    m_pBtnUp          = new QPushButton(this);
+    m_pBtnUp->setObjectName("UpButton");
+    m_pBtnUp->setFixedSize(64,39);
+    connect(m_pBtnUp, SIGNAL(clicked(bool)), this, SLOT(onClickUp(bool)));
+
     m_pDlgZoombar       = new QDlgZoombar(this);
     m_pDlgCamBtnSet     = new QDlgCamButtonSet(this);
     m_pDlgDisplay       = new QDlgDisplay(this);
@@ -82,6 +92,24 @@ void QWidgetCentral::onClickBtn(QMyToolButton* pBtn)
     ShowToolbar();
 }
 
+void QWidgetCentral::onClickDown(bool)
+{
+    m_iBtnShowPos++;
+    if( m_iBtnShowPos+m_iBtnShowNum >= m_lsMainBtn.size() ){
+        m_iBtnShowPos       = m_lsMainBtn.size() - m_iBtnShowNum;
+    }
+    ResetBtn();
+}
+
+void QWidgetCentral::onClickUp(bool)
+{
+    m_iBtnShowPos--;
+    if( m_iBtnShowPos < 0  ){
+        m_iBtnShowPos       = 0;
+    }
+    ResetBtn();
+}
+
 void QWidgetCentral::ShowToolbar()
 {
     QRect       rcBtn   = m_pCurBtn->rect();
@@ -122,13 +150,45 @@ void QWidgetCentral::ResetBtn()
     QRect               rcBtn;
     int                 iyPos               = 0;
     QMyToolButton*      pBtn                = NULL;
+    int                 iCount              = 0;
 
     for(int i=0;i<m_lsMainBtn.size();i++){
+        m_lsMainBtn.at(i)->hide();
+    }
+
+    if( m_iBtnShowPos > 0 ){
+        iyPos       = m_pBtnUp->rect().height() + 1;
+    }
+    for(int i=m_iBtnShowPos;i<m_lsMainBtn.size();i++){
         pBtn            = m_lsMainBtn.at(i);
         rcBtn           = pBtn->rect();
         pBtn->move(5, iyPos);
+        pBtn->show();
         iyPos           += rcBtn.height();
         iyPos           += 1;
+        iCount++;
+
+        if( iCount >= m_iBtnShowNum ){
+            if( i < m_lsMainBtn.size() ){
+                iCount  = 0;
+            }
+            break;
+        }
+    }
+    if( iCount < m_iBtnShowNum ){
+        QRect       rcTmp       = m_pBtnDown->rect();
+        m_pBtnDown->move(5+(rcBtn.width()-rcTmp.width())/2, iyPos);
+        m_pBtnDown->show();
+    }else{
+        m_pBtnDown->hide();
+    }
+
+    if( m_iBtnShowPos > 0 ){
+        QRect       rcTmp       = m_pBtnUp->rect();
+        m_pBtnUp->move(5+(rcBtn.width()-rcTmp.width())/2, 0);
+        m_pBtnUp->show();
+    }else{
+        m_pBtnUp->hide();
     }
 }
 

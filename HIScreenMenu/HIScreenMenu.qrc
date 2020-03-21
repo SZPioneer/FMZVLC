@@ -25,5 +25,7 @@
         <file>img/presetMin.png</file>
         <file>img/videoMax.png</file>
         <file>img/videoMin.png</file>
+        <file>img/downMin.png</file>
+        <file>img/downMax.png</file>
     </qresource>
 </RCC>
