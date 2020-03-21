@@ -1,7 +1,7 @@
 #include "qdlgzoombar.h"
 #include <QPainter>
 #include "ui_qdlgzoombar.h"
-#include "qmyuislot.h"
+#include "xmlconfig.h"
 
 QDlgZoombar::QDlgZoombar(QWidget *parent) : QDialog(parent), ui(new Ui::QDlgZoombar)
 {
@@ -35,6 +35,7 @@ QDlgZoombar::QDlgZoombar(QWidget *parent) : QDialog(parent), ui(new Ui::QDlgZoom
 //                                    "border-image: url(:/img/btnAdd.png);"
 //                                    "}";
 //    ui->pushButton_max->setStyleSheet(qstrStyle);
+
 
 }
 
@@ -82,7 +83,7 @@ void QDlgZoombar::resizeEvent(QResizeEvent *event)
 
 void QDlgZoombar::on_pushButton_min_clicked()
 {
-    int     iStep       = QMyUISlot::GetInstance()->onClickZoomMinus();
+    int     iStep       = XmlConfig::GetInstance()->onClickZoomMinus();
     for(int i=0;i<iStep;i++){
         m_pBtn[i]->setStyleSheet("border-image: url(:/img/zoomSel.png)");
     }
@@ -93,7 +94,7 @@ void QDlgZoombar::on_pushButton_min_clicked()
 
 void QDlgZoombar::on_pushButton_max_clicked()
 {
-    int     iStep       = QMyUISlot::GetInstance()->onClickZoomAdd();
+    int     iStep       = XmlConfig::GetInstance()->onClickZoomAdd();
     for(int i=0;i<iStep;i++){
         m_pBtn[i]->setStyleSheet("border-image: url(:/img/zoomSel.png)");
     }

@@ -19,13 +19,10 @@ protected:
 signals:
 
 public slots:
+    virtual void on_pushButton_min_clicked();
+    virtual void on_pushButton_max_clicked();
 
-private slots:
-    void on_pushButton_min_clicked();
-
-    void on_pushButton_max_clicked();
-
-private:
+protected:
     Ui::QDlgZoombar*    ui              = NULL;
     QPushButton*        m_pBtn[5];
 };

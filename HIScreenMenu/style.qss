@@ -11,3 +11,6 @@ QPushButton#pushButton_min:pressed{
     border-image: url(:/img/btnMinus_click.png);
 }
 
+
+
+

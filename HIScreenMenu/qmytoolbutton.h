@@ -6,6 +6,13 @@
 typedef enum{
     MenuType_None           = 0,
     MenuType_Zoom,
+    MenuType_CamBtnSet,
+    MenuType_Exit,
+    Menutype_Show,
+    Menutype_Brightness,
+    MenuType_printNow,
+    MenyType_Preset,
+    MenuType_Video,
 }emMenuType;
 
 
@@ -27,6 +34,9 @@ protected:
 
 signals:
     void    clickBtn(QMyToolButton*);
+
+public slots:
+    void        onChangeBright(int iVal);
 
 private:
     QPixmap             m_imgMin;

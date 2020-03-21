@@ -11,5 +11,19 @@
         <file>img/btnMinus_click.png</file>
         <file>img/zoomSel.png</file>
         <file>img/zoomUnSel.png</file>
+        <file>img/CamBtnSetMax.png</file>
+        <file>img/CamBtnSetMin.png</file>
+        <file>img/exitMax.png</file>
+        <file>img/exitMin.png</file>
+        <file>img/DiaplayMax.png</file>
+        <file>img/DiaplayMin.png</file>
+        <file>img/brightMax.png</file>
+        <file>img/brightMin.png</file>
+        <file>img/printMax.png</file>
+        <file>img/printMin.png</file>
+        <file>img/presetMax.png</file>
+        <file>img/presetMin.png</file>
+        <file>img/videoMax.png</file>
+        <file>img/videoMin.png</file>
     </qresource>
 </RCC>

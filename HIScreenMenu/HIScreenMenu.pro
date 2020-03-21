@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui xml
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -23,18 +23,31 @@ SOURCES += \
     qmytoolbutton.cpp \
     qwidgetcentral.cpp \
     qdlgzoombar.cpp \
-    qmyuislot.cpp
+    qmyuislot.cpp \
+    qdlgcambuttonset.cpp \
+    xmlconfig.cpp \
+    qdlgdisplay.cpp \
+    qdlgbrightbar.cpp \
+    qdlgpresetbar.cpp
 
 HEADERS += \
     mainwindow.h \
     qmytoolbutton.h \
     qwidgetcentral.h \
     qdlgzoombar.h \
-    qmyuislot.h
+    qmyuislot.h \
+    qdlgcambuttonset.h \
+    xmlconfig.h \
+    qdlgdisplay.h \
+    qdlgbrightbar.h \
+    qdlgpresetbar.h
 
 FORMS += \
     mainwindow.ui \
-    qdlgzoombar.ui
+    qdlgzoombar.ui \
+    qdlgcambuttonset.ui \
+    qdlgdisplay.ui \
+    qdlgpresetbar.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
