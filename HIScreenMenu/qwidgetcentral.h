@@ -9,6 +9,7 @@
 #include "qdlgdisplay.h"
 #include "qdlgpresetbar.h"
 #include <QPushButton>
+#include "qdlgenhancebar.h"
 
 class QWidgetCentral : public QWidget
 {
@@ -40,9 +41,10 @@ private:
     QDlgCamButtonSet*           m_pDlgCamBtnSet = NULL;
     QDlgDisplay*                m_pDlgDisplay   = NULL;
     QDlgPresetBar*              m_pDlgPresetbar = NULL;
+    QDlgEnhanceBar*             m_pDlgEnhancebar= NULL;
     QDialog*                    m_pCurToolbar   = NULL;
     int                         m_iBtnShowPos   = 0;
-    int                         m_iBtnShowNum   = 7;
+    int                         m_iBtnShowNum   = 6;
     QPushButton*                m_pBtnDown;
     QPushButton*                m_pBtnUp;
 };

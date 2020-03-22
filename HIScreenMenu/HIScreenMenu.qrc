@@ -27,5 +27,17 @@
         <file>img/videoMin.png</file>
         <file>img/downMin.png</file>
         <file>img/downMax.png</file>
+        <file>img/upMax.png</file>
+        <file>img/upMin.png</file>
+        <file>img/enhanceMax.png</file>
+        <file>img/enhanceMin.png</file>
+        <file>img/wBalanceMax.png</file>
+        <file>img/wBalanceMin.png</file>
+        <file>img/lightSrcMax.png</file>
+        <file>img/lightSrcMin.png</file>
+        <file>img/chuiMachineMax.png</file>
+        <file>img/chuiMachineMin.png</file>
+        <file>img/RMax.png</file>
+        <file>img/RMin.png</file>
     </qresource>
 </RCC>

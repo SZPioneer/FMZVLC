@@ -36,6 +36,27 @@ QWidgetCentral::QWidgetCentral(QWidget *parent) : QWidget(parent)
     connect(pBtn, SIGNAL(clickBtn(QMyToolButton*)), this, SLOT(onClickBtn(QMyToolButton*)));
     m_lsMainBtn.push_back(pBtn);
 
+    pBtn            = new QMyToolButton(":/img/enhanceMin.png", ":/img/enhanceMax.png", this, "增强", MenuType_Enhance);
+    connect(pBtn, SIGNAL(clickBtn(QMyToolButton*)), this, SLOT(onClickBtn(QMyToolButton*)));
+    m_lsMainBtn.push_back(pBtn);
+
+    pBtn            = new QMyToolButton(":/img/wBalanceMin.png", ":/img/wBalanceMax.png", this, "白平衡", MenuType_WhiteBalance);
+    connect(pBtn, SIGNAL(clickBtn(QMyToolButton*)), this, SLOT(onClickBtn(QMyToolButton*)));
+    m_lsMainBtn.push_back(pBtn);
+
+    pBtn            = new QMyToolButton(":/img/lightSrcMin.png", ":/img/lightSrcMax.png", this, "光源", MenuType_LightSrc);
+    connect(pBtn, SIGNAL(clickBtn(QMyToolButton*)), this, SLOT(onClickBtn(QMyToolButton*)));
+    m_lsMainBtn.push_back(pBtn);
+
+    pBtn            = new QMyToolButton(":/img/chuiMachineMin.png", ":/img/chuiMachineMax.png", this, "吹腹机", MenuType_ChuiMachine);
+    connect(pBtn, SIGNAL(clickBtn(QMyToolButton*)), this, SLOT(onClickBtn(QMyToolButton*)));
+    m_lsMainBtn.push_back(pBtn);
+
+    pBtn            = new QMyToolButton(":/img/RMin.png", ":/img/RMax.png", this, "图像翻转", MenuType_RImage);
+    connect(pBtn, SIGNAL(clickBtn(QMyToolButton*)), this, SLOT(onClickBtn(QMyToolButton*)));
+    m_lsMainBtn.push_back(pBtn);
+
+
     m_pBtnDown          = new QPushButton(this);
     m_pBtnDown->setObjectName("DownButton");
     m_pBtnDown->setFixedSize(64,39);
@@ -51,10 +72,14 @@ QWidgetCentral::QWidgetCentral(QWidget *parent) : QWidget(parent)
     m_pDlgDisplay       = new QDlgDisplay(this);
     m_pDlgBrightbar     = new QDlgBrightbar(this);
     m_pDlgPresetbar     = new QDlgPresetBar(this);
+    m_pDlgEnhancebar    = new QDlgEnhanceBar(this);
 }
 
 QWidgetCentral::~QWidgetCentral()
 {
+    if( m_pDlgEnhancebar ){
+        delete m_pDlgEnhancebar;
+    }
     if( m_pDlgZoombar ){
         delete m_pDlgZoombar;
     }
@@ -134,6 +159,10 @@ void QWidgetCentral::ShowToolbar()
         m_pDlgPresetbar->move(m_pCurBtn->mapToGlobal(pt));
         m_pDlgPresetbar->show();
         m_pCurToolbar   = m_pDlgPresetbar;
+    }else if( m_pCurBtn->getType() == MenuType_Enhance ){
+        m_pDlgEnhancebar->move(m_pCurBtn->mapToGlobal(pt));
+        m_pDlgEnhancebar->show();
+        m_pCurToolbar   = m_pDlgEnhancebar;
     }
 }
 
@@ -148,17 +177,15 @@ void QWidgetCentral::HideToolbar()
 void QWidgetCentral::ResetBtn()
 {
     QRect               rcBtn;
-    int                 iyPos               = 0;
+    int                 iyPos               = m_pBtnUp->rect().height() + 1;
     QMyToolButton*      pBtn                = NULL;
     int                 iCount              = 0;
+    QRect               rcTmpUp             = m_lsMainBtn.at(m_iBtnShowPos)->rect();
 
     for(int i=0;i<m_lsMainBtn.size();i++){
         m_lsMainBtn.at(i)->hide();
     }
 
-    if( m_iBtnShowPos > 0 ){
-        iyPos       = m_pBtnUp->rect().height() + 1;
-    }
     for(int i=m_iBtnShowPos;i<m_lsMainBtn.size();i++){
         pBtn            = m_lsMainBtn.at(i);
         rcBtn           = pBtn->rect();
@@ -169,7 +196,7 @@ void QWidgetCentral::ResetBtn()
         iCount++;
 
         if( iCount >= m_iBtnShowNum ){
-            if( i < m_lsMainBtn.size() ){
+            if( i < m_lsMainBtn.size()-1 ){
                 iCount  = 0;
             }
             break;
@@ -185,7 +212,7 @@ void QWidgetCentral::ResetBtn()
 
     if( m_iBtnShowPos > 0 ){
         QRect       rcTmp       = m_pBtnUp->rect();
-        m_pBtnUp->move(5+(rcBtn.width()-rcTmp.width())/2, 0);
+        m_pBtnUp->move(5+(rcTmpUp.width()-rcTmp.width())/2, 0);
         m_pBtnUp->show();
     }else{
         m_pBtnUp->hide();

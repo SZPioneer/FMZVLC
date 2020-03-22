@@ -27,12 +27,18 @@ void QMyToolButton::paintEvent(QPaintEvent *event)
     QPainter    painter(this);
     QRect       rcClient(1, 1, rect().width()-2, rect().height()-2);
     QFont       font                = painter.font();
-    QPen        pen(QColor(255,255,255));
+    QPen        penMin(QColor(255,255,255));
+    QPen        penMax(QColor(244,234,42));
 
-    painter.setPen(pen);
+
     if( m_bSelect ){
+        painter.setPen(penMax);
         painter.fillRect(rcClient, QColor(29,59,166,220));
-        painter.drawPixmap((width()-m_imgMax.width())/2, (height()-m_imgMax.height())/2, m_imgMax);
+        m_rcMaxBtn      = m_imgMax.rect();
+        m_rcMaxBtn.setLeft((width()-m_imgMax.width())/2);
+        m_rcMaxBtn.setTop((height()-m_imgMax.height())/2);
+        //painter.drawPixmap((width()-m_imgMax.width())/2, (height()-m_imgMax.height())/2, m_imgMax);
+        painter.drawPixmap(m_rcMaxBtn.left(), m_rcMaxBtn.top(), m_imgMax);
 
         font.setPixelSize(20);
         //font.setFamily("wenquanyi");
@@ -40,6 +46,7 @@ void QMyToolButton::paintEvent(QPaintEvent *event)
         painter.drawText(rcClient, Qt::AlignLeft|Qt::AlignBottom, m_qstrTip);
         //painter.drawText(rcClient, Qt::AlignLeft|Qt::AlignBottom, tr("中文"));
     }else{
+        painter.setPen(penMin);
         //painter.fillRect(rcClient, QColor(29,59,166,220));
         painter.setRenderHint(QPainter::Antialiasing);
         painter.setBrush(QBrush(QColor(29,59,166,220)));
@@ -62,9 +69,7 @@ void QMyToolButton::paintEvent(QPaintEvent *event)
 void QMyToolButton::mousePressEvent(QMouseEvent *e)
 {
     if( e->button() == Qt::LeftButton ){
-        qDebug()<<"lBtnDown";
         emit clickBtn(this);
-
     }
 }
 

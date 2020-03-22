@@ -28,7 +28,8 @@ SOURCES += \
     xmlconfig.cpp \
     qdlgdisplay.cpp \
     qdlgbrightbar.cpp \
-    qdlgpresetbar.cpp
+    qdlgpresetbar.cpp \
+    qdlgenhancebar.cpp
 
 HEADERS += \
     mainwindow.h \
@@ -40,14 +41,16 @@ HEADERS += \
     xmlconfig.h \
     qdlgdisplay.h \
     qdlgbrightbar.h \
-    qdlgpresetbar.h
+    qdlgpresetbar.h \
+    qdlgenhancebar.h
 
 FORMS += \
     mainwindow.ui \
     qdlgzoombar.ui \
     qdlgcambuttonset.ui \
     qdlgdisplay.ui \
-    qdlgpresetbar.ui
+    qdlgpresetbar.ui \
+    qdlgenhancebar.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

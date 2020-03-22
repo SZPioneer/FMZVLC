@@ -13,6 +13,11 @@ typedef enum{
     MenuType_printNow,
     MenyType_Preset,
     MenuType_Video,
+    MenuType_Enhance,
+    MenuType_WhiteBalance,
+    MenuType_LightSrc,
+    MenuType_ChuiMachine,
+    MenuType_RImage,
 }emMenuType;
 
 
@@ -22,11 +27,16 @@ class QMyToolButton : public QToolButton
 public:
     explicit QMyToolButton(QString qstrMin, QString qstrMax, QWidget *parent = nullptr, QString qstrTip="", int iType=MenuType_None);
 
+    bool    isSelect()
+    {
+        return m_bSelect;
+    }
     void    setSelect(bool bSelect);
     int     getType()
     {
         return m_iID;
     }
+
 
 protected:
     virtual void    paintEvent(QPaintEvent *event);
@@ -44,6 +54,8 @@ private:
     bool                m_bSelect       = false;
     QString             m_qstrTip;
     int                 m_iID           = MenuType_None;
+    QRect               m_rcMaxBtn;
+
 };
 
 #endif // QMYTOOLBUTTON_H
