@@ -41,6 +41,8 @@ int XmlConfig::readConfig()
     }
     file.close();
 
+    QString             qstrVal;
+    QString             qstrAttr;
     QString             qstrTmp;
     QDomNode            attrNode;
     QDomNamedNodeMap    attrs;
@@ -52,14 +54,15 @@ int XmlConfig::readConfig()
        if( !ButtonSetItems.isNull() ){
            QDomNode     item        = ButtonSetItems.firstChildElement("Item");
            while( !item.isNull() ){
-               qstrTmp      = item.toElement().text();
+               qstrVal      = item.toElement().text();
                attrs        = item.attributes();
                for(int i=0;i<attrs.size();i++){
                    attrNode    = attrs.item(i);
                    if( attrNode.nodeName() == "val" ){
-                       qstrTmp             = attrNode.nodeValue();
+                       qstrAttr             = attrNode.nodeValue();
                    }
                }
+               m_mapCamBtnSets[qstrAttr.toInt()]        = qstrVal;
 
                item         = item.nextSibling();
            }

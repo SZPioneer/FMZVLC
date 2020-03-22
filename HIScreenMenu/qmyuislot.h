@@ -26,12 +26,7 @@ public:
         }
     }
 
-    int     zoomStep()
-    {
-        return m_iZoomStep;
-    }
-    int    onClickZoomAdd();
-    int    onClickZoomMinus();
+
 
 signals:
 
@@ -40,7 +35,7 @@ public slots:
 
 
 private:
-    int     m_iZoomStep         = 0;            //0=<val<=5
+
 };
 
 #endif // QMYUISLOT_H

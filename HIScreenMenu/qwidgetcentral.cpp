@@ -1,5 +1,6 @@
 #include "qwidgetcentral.h"
 #include "xmlconfig.h"
+#include <QApplication>
 
 QWidgetCentral::QWidgetCentral(QWidget *parent) : QWidget(parent)
 {
@@ -99,22 +100,28 @@ QWidgetCentral::~QWidgetCentral()
 
 void QWidgetCentral::onClickBtn(QMyToolButton* pBtn)
 {
-    if( pBtn == m_pCurBtn ){
-        m_pCurBtn->setSelect(false);
-        m_pCurBtn       = NULL;
-        ResetBtn();
-        HideToolbar();
-        return;
-    }
-    if( m_pCurBtn ){
-        m_pCurBtn->setSelect(false);
-        HideToolbar();
-    }
-    m_pCurBtn       = pBtn;
-    m_pCurBtn->setSelect(true);
+    if( pBtn->isSelect() ){
+        if( pBtn->getType() == MenuType_Exit ){
+            qApp->quit();
+        }
+    }else{
+        if( pBtn == m_pCurBtn ){
+            m_pCurBtn->setSelect(false);
+            m_pCurBtn       = NULL;
+            ResetBtn();
+            HideToolbar();
+            return;
+        }
+        if( m_pCurBtn ){
+            m_pCurBtn->setSelect(false);
+            HideToolbar();
+        }
+        m_pCurBtn       = pBtn;
+        m_pCurBtn->setSelect(true);
 
-    ResetBtn();
-    ShowToolbar();
+        ResetBtn();
+        ShowToolbar();
+    }
 }
 
 void QWidgetCentral::onClickDown(bool)

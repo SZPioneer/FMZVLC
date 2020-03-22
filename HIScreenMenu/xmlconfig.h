@@ -2,7 +2,9 @@
 #define XMLCONFIG_H
 
 #include <QObject>
+#include <QMap>
 
+typedef QMap<int,QString>       MapCamButtonSets;
 class XmlConfig : public QObject
 {
     Q_OBJECT
@@ -51,8 +53,13 @@ signals:
 public slots:
 
 private:
-    int     m_iZoomStep         = 0;            //0=<val<=5
-    int     m_iBrightStep       = 0;            //0,5
+    int                 m_iZoomStep         = 0;            //0=<val<=5
+    int                 m_iBrightStep       = 0;            //0,5
+    MapCamButtonSets    m_mapCamBtnSets;
+    int                 m_iLeftBtnShortVal  = 0;
+    int                 m_iLeftBtnLongVal   = 0;
+    int                 m_iRightBtnShortVal = 0;
+    int                 m_iRightBtnLongVal  = 0;
 };
 
 #endif // XMLCONFIG_H

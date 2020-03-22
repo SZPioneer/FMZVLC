@@ -2,6 +2,8 @@
 
 #include <QApplication>
 #include <QFile>
+#include "xmlconfig.h"
+#include <QThread>
 
 class CommonHelper
 {
@@ -19,6 +21,9 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     CommonHelper::setStyle(":/style.qss");
+    QThread     thread;
+    XmlConfig::GetInstance()->moveToThread(&thread);
+    thread.start();
 
     MainWindow w;
     w.show();
