@@ -23,9 +23,11 @@ public:
 private:
     void    ShowToolbar();
     void    HideToolbar();
+    int     ScrollToolButton(int iStep);
 
 protected:
     virtual void resizeEvent(QResizeEvent *event);
+    virtual void wheelEvent(QWheelEvent *event);
 
 signals:
 public slots:

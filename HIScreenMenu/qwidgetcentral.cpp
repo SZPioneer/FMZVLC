@@ -1,6 +1,7 @@
 #include "qwidgetcentral.h"
 #include "xmlconfig.h"
 #include <QApplication>
+#include <QWheelEvent>
 
 QWidgetCentral::QWidgetCentral(QWidget *parent) : QWidget(parent)
 {
@@ -229,4 +230,49 @@ void QWidgetCentral::ResetBtn()
 void QWidgetCentral::resizeEvent(QResizeEvent *event)
 {
     ResetBtn();
+}
+
+int QWidgetCentral::ScrollToolButton(int iStep)
+{
+    int         iCurStep        = 0;
+
+    if( m_pCurBtn == NULL ){
+        iCurStep        = -1;
+    }
+    for(int i=0;i<m_lsMainBtn.size();i++){
+        if( m_lsMainBtn.at(i) == m_pCurBtn ){
+            iCurStep        = i;
+            break;
+        }
+    }
+
+    iCurStep        += iStep;
+    if( iCurStep <= 0 ){
+        iCurStep        = 0;
+    }
+    if( iCurStep >= m_lsMainBtn.size() ){
+        iCurStep    = m_lsMainBtn.size() -1;
+    }
+
+    if( iCurStep < m_iBtnShowPos ){
+        onClickUp(false);
+    }else if( iCurStep >= m_iBtnShowPos+m_iBtnShowNum ){
+        onClickDown(false);
+    }
+
+    onClickBtn(m_lsMainBtn.at(iCurStep));
+}
+
+void QWidgetCentral::wheelEvent(QWheelEvent *event)
+{
+    //QPoint      numPixels       = event->pixelDelta();
+    QPoint      numDegrees      = event->angleDelta() / 8;
+
+    if (!numDegrees.isNull()) {
+        QPoint      numSteps    = numDegrees / 15;
+        qDebug()<<"numSteps:"<<numSteps;
+        ScrollToolButton(-numSteps.y());
+    }
+
+    event->accept();
 }

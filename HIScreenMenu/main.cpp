@@ -4,6 +4,7 @@
 #include <QFile>
 #include "xmlconfig.h"
 #include <QThread>
+#include "globalapplication.h"
 
 class CommonHelper
 {
@@ -18,7 +19,7 @@ public:
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
+    GlobalApplication a(argc, argv);
 
     CommonHelper::setStyle(":/style.qss");
     QThread     thread;
@@ -26,6 +27,10 @@ int main(int argc, char *argv[])
     thread.start();
 
     MainWindow w;
+    a.installNativeEventFilter(&w);
     w.show();
-    return a.exec();
+    a.exec();
+    thread.terminate();
+
+    return 0;
 }

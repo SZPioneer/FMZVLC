@@ -29,14 +29,22 @@ QDlgZoombar::QDlgZoombar(QWidget *parent) : QDialog(parent), ui(new Ui::QDlgZoom
         m_pBtn[i]->setStyleSheet("border-image: url(:/img/zoomUnSel.png)");
     }
 
-    //ui->pushButton_max->setIcon(QIcon(":/img/btnAdd.png"));
+    int     iZoomVal        = XmlConfig::GetInstance()->m_iZoomStep;
+    for(int i=0;i<iZoomVal;i++){
+        m_pBtn[i]->setStyleSheet("border-image: url(:/img/zoomSel.png)");
+    }
 
-//    QString     qstrStyle       = "QPushButton:pressed{"
-//                                    "border-image: url(:/img/btnAdd.png);"
-//                                    "}";
-//    ui->pushButton_max->setStyleSheet(qstrStyle);
+    connect(XmlConfig::GetInstance(), SIGNAL(changeZoom(int)), this, SLOT(onChangeZoom(int)));
+}
 
-
+void QDlgZoombar::onChangeZoom(int iZoom)
+{
+    for(int i=0;i<iZoom;i++){
+        m_pBtn[i]->setStyleSheet("border-image: url(:/img/zoomSel.png)");
+    }
+    for(int i=iZoom;i<5;i++){
+        m_pBtn[i]->setStyleSheet("border-image: url(:/img/zoomUnSel.png)");
+    }
 }
 
 void QDlgZoombar::paintEvent(QPaintEvent *event)
@@ -83,22 +91,22 @@ void QDlgZoombar::resizeEvent(QResizeEvent *event)
 
 void QDlgZoombar::on_pushButton_min_clicked()
 {
-    int     iStep       = XmlConfig::GetInstance()->onClickZoomMinus();
-    for(int i=0;i<iStep;i++){
-        m_pBtn[i]->setStyleSheet("border-image: url(:/img/zoomSel.png)");
-    }
-    for(int i=iStep;i<5;i++){
-        m_pBtn[i]->setStyleSheet("border-image: url(:/img/zoomUnSel.png)");
-    }
+    XmlConfig::GetInstance()->onClickZoomMinus();
+//    for(int i=0;i<iStep;i++){
+//        m_pBtn[i]->setStyleSheet("border-image: url(:/img/zoomSel.png)");
+//    }
+//    for(int i=iStep;i<5;i++){
+//        m_pBtn[i]->setStyleSheet("border-image: url(:/img/zoomUnSel.png)");
+//    }
 }
 
 void QDlgZoombar::on_pushButton_max_clicked()
 {
-    int     iStep       = XmlConfig::GetInstance()->onClickZoomAdd();
-    for(int i=0;i<iStep;i++){
-        m_pBtn[i]->setStyleSheet("border-image: url(:/img/zoomSel.png)");
-    }
-    for(int i=iStep;i<5;i++){
-        m_pBtn[i]->setStyleSheet("border-image: url(:/img/zoomUnSel.png)");
-    }
+    XmlConfig::GetInstance()->onClickZoomAdd();
+//    for(int i=0;i<iStep;i++){
+//        m_pBtn[i]->setStyleSheet("border-image: url(:/img/zoomSel.png)");
+//    }
+//    for(int i=iStep;i<5;i++){
+//        m_pBtn[i]->setStyleSheet("border-image: url(:/img/zoomUnSel.png)");
+//    }
 }

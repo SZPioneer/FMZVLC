@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <QDomNode>
 #include <QDomElement>
+#include <QNetworkDatagram>
 
 XmlConfig*       XmlConfig::s_pInst     = NULL;
 XmlConfig::XmlConfig(QObject *parent) : QObject(parent)
@@ -15,6 +16,44 @@ XmlConfig::XmlConfig(QObject *parent) : QObject(parent)
 void XmlConfig::Init()
 {
     readConfig();
+
+    m_pUdpSock          = new QUdpSocket(this);
+    m_pUdpSock->bind(QHostAddress::LocalHost, UDPPORT_SCREENMENU);
+    connect(m_pUdpSock, SIGNAL(readyRead()), this, SLOT(onUdpData()));
+
+    netGetZoomValue();
+}
+
+void XmlConfig::onUdpData()
+{
+    while( m_pUdpSock->hasPendingDatagrams() ){
+        QNetworkDatagram    datagram        = m_pUdpSock->receiveDatagram();
+        QByteArray          data            = datagram.data();
+        ST_NetProtocol*     pNet            = (ST_NetProtocol*)data.data();
+
+        qDebug()<<"datagram len:"<<data.length();
+        if( data.length() == 0 ){
+            break;
+        }
+
+        if( pNet->iCmd == NetCmd_GetZoom_RSP ){
+            int     iVal        = 0;
+            memcpy(&iVal, pNet->szData, pNet->iLenData);
+            m_iZoomStep     = iVal;
+
+            qDebug("cmd:%d, len:%d, val:%d", pNet->iCmd, pNet->iLenData, iVal);
+        }else if( pNet->iCmd == NetCmd_SetZoom_RSP ){
+            int     iVal        = 0;
+            memcpy(&iVal, pNet->szData, pNet->iLenData);
+            m_iZoomStep     = iVal;
+            emit changeZoom(m_iZoomStep);
+
+            qDebug("cmd:%d, len:%d, val:%d", pNet->iCmd, pNet->iLenData, iVal);
+        }else if( pNet->iCmd == NetCmd_GetMouseButtonConfig_RSP || pNet->iCmd == NetCmd_SetMouseButtonConfig_RSP ){
+            memcpy(&m_stMouseBtnConfig, pNet->szData, pNet->iLenData);
+
+        }
+    }
 }
 
 int XmlConfig::readConfig()
@@ -74,6 +113,7 @@ int XmlConfig::readConfig()
                    attrNode    = attrs.item(i);
                    if( attrNode.nodeName() == "val" ){
                        qstrTmp             = attrNode.nodeValue();
+                       m_stMouseBtnConfig.iLeftShortPress       = qstrTmp.toInt();
                    }
                }
            }
@@ -84,6 +124,7 @@ int XmlConfig::readConfig()
                    attrNode    = attrs.item(i);
                    if( attrNode.nodeName() == "val" ){
                        qstrTmp             = attrNode.nodeValue();
+                       m_stMouseBtnConfig.iLeftLongPress        = qstrTmp.toInt();
                    }
                }
            }
@@ -94,6 +135,7 @@ int XmlConfig::readConfig()
                    attrNode    = attrs.item(i);
                    if( attrNode.nodeName() == "val" ){
                        qstrTmp             = attrNode.nodeValue();
+                       m_stMouseBtnConfig.iRightShortPress      = qstrTmp.toInt();
                    }
                }
            }
@@ -104,6 +146,7 @@ int XmlConfig::readConfig()
                    attrNode    = attrs.item(i);
                    if( attrNode.nodeName() == "val" ){
                        qstrTmp             = attrNode.nodeValue();
+                       m_stMouseBtnConfig.iRightLongPress       = qstrTmp.toInt();
                    }
                }
            }
@@ -113,37 +156,92 @@ int XmlConfig::readConfig()
     return 0;
 }
 
-int XmlConfig::onClickZoomAdd()
+void XmlConfig::onClickZoomAdd()
 {
-    m_iZoomStep++;
-    if( m_iZoomStep >= 5 ){
-        m_iZoomStep     = 5;
+    int     iTmp        = m_iZoomStep;
+    iTmp++;
+    if( iTmp >= 5 ){
+        iTmp     = 5;
     }
-    return m_iZoomStep;
+
+    netSetZoomValue(iTmp);
 }
 
-int XmlConfig::onClickZoomMinus()
+void XmlConfig::onClickZoomMinus()
 {
-    m_iZoomStep--;
-    if( m_iZoomStep <=0 ){
-        m_iZoomStep     = 0;
+    int     iTmp        = m_iZoomStep;
+    iTmp--;
+    if( iTmp <=0 ){
+        iTmp     = 0;
     }
-    return m_iZoomStep;
+
+    netSetZoomValue(iTmp);
 }
 
-int XmlConfig::onClickBrightAdd()
+void XmlConfig::onClickBrightAdd()
 {
     m_iBrightStep++;
     if( m_iBrightStep >= 5 ){
         m_iBrightStep     = 5;
     }
-    return m_iBrightStep;
+
 }
-int XmlConfig::onClickBrightMinus()
+void XmlConfig::onClickBrightMinus()
 {
     m_iBrightStep--;
     if( m_iBrightStep <=0 ){
         m_iBrightStep     = 0;
     }
-    return m_iBrightStep;
+
+}
+
+int XmlConfig::netGetZoomValue()
+{
+    char                szData[128]     = {0};
+    ST_NetProtocol*     pNet            = (ST_NetProtocol*)szData;
+
+    pNet->iCmd      = NetCmd_GetZoom_REQ;
+    pNet->iLenData  = 0;
+    m_pUdpSock->writeDatagram(szData, sizeof(ST_NetProtocol), QHostAddress("127.0.0.1"), UDPPORT_HI);
+    return 0;
+}
+
+int XmlConfig::netSetZoomValue(int iVal)
+{
+    char                szData[128]     = {0};
+    ST_NetProtocol*     pNet            = (ST_NetProtocol*)szData;
+    int                 iLen            = 0;
+
+    pNet->iCmd      = NetCmd_SetZoom_REQ;
+    pNet->iLenData  = sizeof(int);
+    memcpy(pNet->szData, &iVal, sizeof(iVal));
+
+    iLen        = sizeof(ST_NetProtocol) + pNet->iLenData;
+    m_pUdpSock->writeDatagram(szData, iLen, QHostAddress("127.0.0.1"), UDPPORT_HI);
+    return 0;
+}
+
+int XmlConfig::netGetMouseButtonConfig()
+{
+    char                szData[128]     = {0};
+    ST_NetProtocol*     pNet            = (ST_NetProtocol*)szData;
+
+    pNet->iCmd      = NetCmd_GetMouseButtonConfig_REQ;
+    pNet->iLenData  = 0;
+    m_pUdpSock->writeDatagram(szData, sizeof(ST_NetProtocol), QHostAddress("127.0.0.1"), UDPPORT_HI);
+    return 0;
+}
+int XmlConfig::netSetMouseButtonConfig(ST_MouseButtonSet& stSet)
+{
+    char                szData[128]     = {0};
+    ST_NetProtocol*     pNet            = (ST_NetProtocol*)szData;
+    int                 iLen            = 0;
+
+    pNet->iCmd      = NetCmd_SetMouseButtonConfig_REQ;
+    pNet->iLenData  = sizeof(stSet);
+    memcpy(pNet->szData, &stSet, sizeof(stSet));
+
+    iLen        = sizeof(ST_NetProtocol) + pNet->iLenData;
+    m_pUdpSock->writeDatagram(szData, iLen, QHostAddress("127.0.0.1"), UDPPORT_HI);
+    return 0;
 }

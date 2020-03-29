@@ -1,4 +1,4 @@
-QT       += core gui xml network
+QT       += core gui xml
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -29,8 +29,7 @@ SOURCES += \
     qdlgdisplay.cpp \
     qdlgbrightbar.cpp \
     qdlgpresetbar.cpp \
-    qdlgenhancebar.cpp \
-    globalapplication.cpp
+    qdlgenhancebar.cpp
 
 HEADERS += \
     mainwindow.h \
@@ -43,9 +42,7 @@ HEADERS += \
     qdlgdisplay.h \
     qdlgbrightbar.h \
     qdlgpresetbar.h \
-    qdlgenhancebar.h \
-    ../inc/public.h \
-    globalapplication.h
+    qdlgenhancebar.h
 
 FORMS += \
     mainwindow.ui \
