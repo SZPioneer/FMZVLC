@@ -7,13 +7,14 @@
 
 #define BORDER_MIN_EXTERN       20
 #define BORDER_MAX_EXTERN       30
-QMyToolButton::QMyToolButton(QString qstrMin, QString qstrMax, QWidget *parent, QString qstrTip, int iType) : QToolButton(parent)
+QMyToolButton::QMyToolButton(QString qstrMin, QString qstrMax, QString qstrMaxNotFocus, QWidget *parent, QString qstrTip, int iType) : QToolButton(parent)
 {
     m_qstrTip       = qstrTip;
     m_iID           = iType;
 
     m_imgMax.load(qstrMax);
     m_imgMin.load(qstrMin);
+    m_imgMaxNotFocus.load(qstrMaxNotFocus);
 
     setFixedSize(m_imgMin.width()+BORDER_MIN_EXTERN, m_imgMin.height()+BORDER_MIN_EXTERN);
 
@@ -38,7 +39,11 @@ void QMyToolButton::paintEvent(QPaintEvent *event)
         m_rcMaxBtn.setLeft((width()-m_imgMax.width())/2);
         m_rcMaxBtn.setTop((height()-m_imgMax.height())/2);
         //painter.drawPixmap((width()-m_imgMax.width())/2, (height()-m_imgMax.height())/2, m_imgMax);
-        painter.drawPixmap(m_rcMaxBtn.left(), m_rcMaxBtn.top(), m_imgMax);
+        if( m_bFocus ){
+            painter.drawImage(m_rcMaxBtn.left(), m_rcMaxBtn.top(), m_imgMax);
+        }else{
+            painter.drawImage(m_rcMaxBtn.left(), m_rcMaxBtn.top(), m_imgMaxNotFocus);
+        }
 
         font.setPixelSize(20);
         //font.setFamily("wenquanyi");
@@ -51,7 +56,7 @@ void QMyToolButton::paintEvent(QPaintEvent *event)
         painter.setRenderHint(QPainter::Antialiasing);
         painter.setBrush(QBrush(QColor(29,59,166,220)));
         painter.drawRoundedRect(rect(), 5, 5);
-        painter.drawPixmap((width()-m_imgMin.width())/2, (height()-m_imgMin.height())/2, m_imgMin);
+        painter.drawImage((width()-m_imgMin.width())/2, (height()-m_imgMin.height())/2, m_imgMin);
 
         font.setPixelSize(12);
         //font.setFamily("wenquanyi");

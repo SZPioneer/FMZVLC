@@ -6,6 +6,8 @@
 #include <QDomNode>
 #include <QDomElement>
 #include <QNetworkDatagram>
+#include "globalapplication.h"
+#include "qmywidget.h"
 
 XmlConfig*       XmlConfig::s_pInst     = NULL;
 XmlConfig::XmlConfig(QObject *parent) : QObject(parent)
@@ -22,6 +24,20 @@ void XmlConfig::Init()
     connect(m_pUdpSock, SIGNAL(readyRead()), this, SLOT(onUdpData()));
 
     netGetZoomValue();
+}
+
+void XmlConfig::setAppEventObj(QObject* pObj)
+{
+    if( m_pEventObj == pObj ){
+        return;
+    }
+    if( m_pEventObj ){
+        ((QMyWidget*)m_pEventObj)->setFocusOn(false);
+        m_pEventObj     = NULL;
+    }
+    m_pEventObj     = pObj;
+    ((QMyWidget*)pObj)->setFocusOn(true);
+    ((QMyWidget*)pObj)->update();
 }
 
 void XmlConfig::onUdpData()

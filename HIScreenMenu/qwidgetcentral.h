@@ -1,7 +1,7 @@
 #ifndef QWIDGETCENTRAL_H
 #define QWIDGETCENTRAL_H
 
-#include <QWidget>
+#include "qmywidget.h"
 #include "qmytoolbutton.h"
 #include "qdlgzoombar.h"
 #include "qdlgcambuttonset.h"
@@ -11,7 +11,7 @@
 #include <QPushButton>
 #include "qdlgenhancebar.h"
 
-class QWidgetCentral : public QWidget
+class QWidgetCentral : public QMyWidget
 {
     Q_OBJECT
 public:
@@ -26,14 +26,18 @@ private:
     int     ScrollToolButton(int iStep);
 
 protected:
-    virtual void resizeEvent(QResizeEvent *event);
-    virtual void wheelEvent(QWheelEvent *event);
+    virtual void resizeEvent(QResizeEvent *event) override;
+    virtual void wheelEvent(QWheelEvent *event) override;
+    //virtual void paintEvent(QPaintEvent *event) override;
+    virtual void keyPressEvent(QKeyEvent *event) override;
 
 signals:
 public slots:
     void    onClickBtn(QMyToolButton* pBtn);
     void    onClickDown(bool);
     void    onClickUp(bool);
+    virtual void    onWheel(QObject*,int);
+    virtual void    onKeyEnter(QObject*);
 
 private:
     QList<QMyToolButton*>       m_lsMainBtn;
@@ -44,7 +48,7 @@ private:
     QDlgDisplay*                m_pDlgDisplay   = NULL;
     QDlgPresetBar*              m_pDlgPresetbar = NULL;
     QDlgEnhanceBar*             m_pDlgEnhancebar= NULL;
-    QDialog*                    m_pCurToolbar   = NULL;
+    QWidget*                    m_pCurToolbar   = NULL;
     int                         m_iBtnShowPos   = 0;
     int                         m_iBtnShowNum   = 6;
     QPushButton*                m_pBtnDown;

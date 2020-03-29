@@ -37,6 +37,8 @@ public:
         }
     }
 
+    void    setAppEventObj(QObject* pObj);
+
     int     zoomStep()
     {
         return m_iZoomStep;
@@ -57,6 +59,8 @@ public:
     int     netSetMouseButtonConfig(ST_MouseButtonSet& stSet);
 
 signals:
+    void    notifyKeyEnter(QObject*);
+    void    notifyWheel(QObject*, int iStep);
     void    changeBright(int iBright);
     void    changeZoom(int iZoomVal);
     void    changeMouseButtonConfig(ST_MouseButtonSet stConfig);
@@ -70,6 +74,7 @@ private:
     QUdpSocket*         m_pUdpSock          = NULL;
 
 public:
+    QObject*            m_pEventObj         = NULL;
     int                 m_iZoomStep         = 0;            //0=<val<=5
     int                 m_iBrightStep       = 0;            //0,5
     int                 m_iLeftBtnShortVal  = 0;

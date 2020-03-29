@@ -30,7 +30,8 @@ SOURCES += \
     qdlgbrightbar.cpp \
     qdlgpresetbar.cpp \
     qdlgenhancebar.cpp \
-    globalapplication.cpp
+    globalapplication.cpp \
+    qmywidget.cpp
 
 HEADERS += \
     mainwindow.h \
@@ -45,7 +46,8 @@ HEADERS += \
     qdlgpresetbar.h \
     qdlgenhancebar.h \
     ../inc/public.h \
-    globalapplication.h
+    globalapplication.h \
+    qmywidget.h
 
 FORMS += \
     mainwindow.ui \

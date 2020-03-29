@@ -3,7 +3,7 @@
 #include "ui_qdlgzoombar.h"
 #include "xmlconfig.h"
 
-QDlgZoombar::QDlgZoombar(QWidget *parent) : QDialog(parent), ui(new Ui::QDlgZoombar)
+QDlgZoombar::QDlgZoombar(QWidget *parent) : QMyWidget(parent), ui(new Ui::QDlgZoombar)
 {
     ui->setupUi(this);
 
@@ -31,16 +31,77 @@ QDlgZoombar::QDlgZoombar(QWidget *parent) : QDialog(parent), ui(new Ui::QDlgZoom
 
     int     iZoomVal        = XmlConfig::GetInstance()->m_iZoomStep;
     for(int i=0;i<iZoomVal;i++){
-        m_pBtn[i]->setStyleSheet("border-image: url(:/img/zoomSel.png)");
+        if( m_bFocusOn ){
+            m_pBtn[i]->setStyleSheet("border-image: url(:/img/zoomSel.png)");
+        }else{
+            m_pBtn[i]->setStyleSheet("border-image: url(:/img/zoomSelNotFocus.png)");
+        }
+    }
+
+    if( m_bFocusOn ){
+        ui->pushButton_max->setStyleSheet("border-image: url(:/img/btnAdd.png)");
+        ui->pushButton_min->setStyleSheet("border-image: url(:/img/btnMinus.png)");
+    }else{
+        ui->pushButton_max->setStyleSheet("border-image: url(:/img/btnAddNotFocus.png)");
+        ui->pushButton_min->setStyleSheet("border-image: url(:/img/btnMinusNotFocus.png)");
     }
 
     connect(XmlConfig::GetInstance(), SIGNAL(changeZoom(int)), this, SLOT(onChangeZoom(int)));
 }
 
+void QDlgZoombar::setFocusOn(bool bFocus)
+{
+    qDebug()<<"xxx "<<bFocus;
+    QMyWidget::setFocusOn(bFocus);
+
+    if( m_bFocusOn ){
+        ui->pushButton_max->setStyleSheet("border-image: url(:/img/btnAdd.png)");
+        ui->pushButton_min->setStyleSheet("border-image: url(:/img/btnMinus.png)");
+    }else{
+        ui->pushButton_max->setStyleSheet("border-image: url(:/img/btnAddNotFocus.png)");
+        ui->pushButton_min->setStyleSheet("border-image: url(:/img/btnMinusNotFocus.png)");
+    }
+
+    int     iZoomVal        = XmlConfig::GetInstance()->m_iZoomStep;
+    for(int i=0;i<iZoomVal;i++){
+        if( m_bFocusOn ){
+            m_pBtn[i]->setStyleSheet("border-image: url(:/img/zoomSel.png)");
+        }else{
+            m_pBtn[i]->setStyleSheet("border-image: url(:/img/zoomSelNotFocus.png)");
+        }
+    }
+}
+
+void QDlgZoombar::onWheel(QObject* pObj,int iStep)
+{
+    if( pObj != this ){
+        return;
+    }
+
+    if( iStep > 0 ){
+        on_pushButton_min_clicked();
+    }else{
+        on_pushButton_max_clicked();
+    }
+}
+
+void QDlgZoombar::onKeyEnter(QObject* pObj)
+{
+    if( pObj != this ){
+        return;
+    }
+
+
+}
+
 void QDlgZoombar::onChangeZoom(int iZoom)
 {
     for(int i=0;i<iZoom;i++){
-        m_pBtn[i]->setStyleSheet("border-image: url(:/img/zoomSel.png)");
+        if( m_bFocusOn ){
+            m_pBtn[i]->setStyleSheet("border-image: url(:/img/zoomSel.png)");
+        }else{
+            m_pBtn[i]->setStyleSheet("border-image: url(:/img/zoomSelNotFocus.png)");
+        }
     }
     for(int i=iZoom;i<5;i++){
         m_pBtn[i]->setStyleSheet("border-image: url(:/img/zoomUnSel.png)");
@@ -91,6 +152,7 @@ void QDlgZoombar::resizeEvent(QResizeEvent *event)
 
 void QDlgZoombar::on_pushButton_min_clicked()
 {
+    XmlConfig::GetInstance()->setAppEventObj(this);
     XmlConfig::GetInstance()->onClickZoomMinus();
 //    for(int i=0;i<iStep;i++){
 //        m_pBtn[i]->setStyleSheet("border-image: url(:/img/zoomSel.png)");
@@ -102,6 +164,7 @@ void QDlgZoombar::on_pushButton_min_clicked()
 
 void QDlgZoombar::on_pushButton_max_clicked()
 {
+    XmlConfig::GetInstance()->setAppEventObj(this);
     XmlConfig::GetInstance()->onClickZoomAdd();
 //    for(int i=0;i<iStep;i++){
 //        m_pBtn[i]->setStyleSheet("border-image: url(:/img/zoomSel.png)");

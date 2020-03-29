@@ -39,5 +39,21 @@
         <file>img/chuiMachineMin.png</file>
         <file>img/RMax.png</file>
         <file>img/RMin.png</file>
+        <file>img/zoomSelNotFocus.png</file>
+        <file>img/btnAddNotFocus.png</file>
+        <file>img/btnMinusNotFocus.png</file>
+        <file>img/brightMaxNotFocus.png</file>
+        <file>img/CamBtnSetMaxNotFocus.png</file>
+        <file>img/chuiMachineMaxNotFocus.png</file>
+        <file>img/DiaplayMaxNotFocus.png</file>
+        <file>img/enhanceMaxNotFocus.png</file>
+        <file>img/exitMaxNotFocus.png</file>
+        <file>img/lightSrcMaxNotFocus.png</file>
+        <file>img/presetMaxNotFocus.png</file>
+        <file>img/printMaxNotFocus.png</file>
+        <file>img/RMaxNotFocus.png</file>
+        <file>img/videoMaxNotFocus.png</file>
+        <file>img/wBalanceMaxNotFocus.png</file>
+        <file>img/zoomMaxNotFocus.png</file>
     </qresource>
 </RCC>

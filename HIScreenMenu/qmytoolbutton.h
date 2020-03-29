@@ -2,6 +2,7 @@
 #define QMYTOOLBUTTON_H
 
 #include <QToolButton>
+#include <QDebug>
 
 typedef enum{
     MenuType_None           = 0,
@@ -25,7 +26,7 @@ class QMyToolButton : public QToolButton
 {
     Q_OBJECT
 public:
-    explicit QMyToolButton(QString qstrMin, QString qstrMax, QWidget *parent = nullptr, QString qstrTip="", int iType=MenuType_None);
+    explicit QMyToolButton(QString qstrMin, QString qstrMax, QString qstrMaxNotFocus, QWidget *parent = nullptr, QString qstrTip="", int iType=MenuType_None);
 
     bool    isSelect()
     {
@@ -36,7 +37,11 @@ public:
     {
         return m_iID;
     }
-
+    void    setFocusOn(bool bFocus)
+    {
+        m_bFocus        = bFocus;
+        update();
+    }
 
 protected:
     virtual void    paintEvent(QPaintEvent *event);
@@ -49,13 +54,14 @@ public slots:
     void        onChangeBright(int iVal);
 
 private:
-    QPixmap             m_imgMin;
-    QPixmap             m_imgMax;
+    QImage              m_imgMin;
+    QImage              m_imgMax;
+    QImage              m_imgMaxNotFocus;
     bool                m_bSelect       = false;
     QString             m_qstrTip;
     int                 m_iID           = MenuType_None;
     QRect               m_rcMaxBtn;
-
+    bool                m_bFocus        = false;
 };
 
 #endif // QMYTOOLBUTTON_H

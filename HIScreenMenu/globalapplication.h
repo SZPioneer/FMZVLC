@@ -9,13 +9,18 @@ class GlobalApplication : public QApplication
 public:
     explicit GlobalApplication(int &argc, char **argv);
 
-    bool notify(QObject*, QEvent *);
 
-    virtual bool eventFilter(QObject *obj, QEvent *ev);
+    virtual bool    notify(QObject*, QEvent *);
+
+private:
+    void        onWheel(QObject*, QEvent*);
+    bool        onKey(QObject*,QEvent*);
 
 signals:
 
 public slots:
+
+
 };
 
 #endif // GLOBALAPPLICATION_H

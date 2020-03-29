@@ -5,6 +5,7 @@
 #include "xmlconfig.h"
 #include <QThread>
 #include "globalapplication.h"
+#include <QDebug>
 
 class CommonHelper
 {
@@ -27,7 +28,8 @@ int main(int argc, char *argv[])
     thread.start();
 
     MainWindow w;
-    a.installNativeEventFilter(&w);
+    qDebug()<<"main thread:"<<QThread::currentThreadId();
+
     w.show();
     a.exec();
     thread.terminate();
