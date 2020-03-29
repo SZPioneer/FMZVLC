@@ -1,0 +1,24 @@
+一、采用UDP点对点通信，界面进程使用22222端口，后台进程使用22223端口。
+
+二、通信协议
+
+typedef struct tagNetProtocol{
+    int         iCmd;
+    int         iLenData;
+    char        szData[];
+}ST_NetProtocol;
+
+1、获取缩放值
+	请求方发送
+	tagNetProtocol.iCmd			= NetCmd_GetZoom;
+	tagNetProtocol.iLenData		= 0;
+	##################
+	# ST_NetProtocol #
+	##################
+	影响方发送
+	tagNetProtocol.iCmd			= NetCmd_GetZoom;
+	tagNetProtocol.iLenData		= sizeof(int)
+	tagNetProtocol.szData[0~3]	= value				//value取值0~5
+	################################
+	# ST_NetProtocol # szData(int) #
+	################################
