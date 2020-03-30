@@ -51,7 +51,6 @@ QDlgZoombar::QDlgZoombar(QWidget *parent) : QMyWidget(parent), ui(new Ui::QDlgZo
 
 void QDlgZoombar::setFocusOn(bool bFocus)
 {
-    qDebug()<<"xxx "<<bFocus;
     QMyWidget::setFocusOn(bFocus);
 
     if( m_bFocusOn ){
@@ -91,7 +90,7 @@ void QDlgZoombar::onKeyEnter(QObject* pObj)
         return;
     }
 
-
+    emit XmlConfig::GetInstance()->notifyEnterToolbar(this);
 }
 
 void QDlgZoombar::onChangeZoom(int iZoom)

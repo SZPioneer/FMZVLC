@@ -36,6 +36,7 @@ public slots:
     void    onClickBtn(QMyToolButton* pBtn);
     void    onClickDown(bool);
     void    onClickUp(bool);
+    void    onEnterToolbar(QWidget*);
     virtual void    onWheel(QObject*,int);
     virtual void    onKeyEnter(QObject*);
 

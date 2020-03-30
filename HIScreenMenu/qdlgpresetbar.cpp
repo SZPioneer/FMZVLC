@@ -1,6 +1,7 @@
 #include "qdlgpresetbar.h"
 #include "ui_Qdlgpresetbar.h"
 #include <QPainter>
+#include "xmlconfig.h"
 
 QDlgPresetBar::QDlgPresetBar(QWidget *parent) : QDialog(parent), ui(new Ui::QDlgPresetBar)
 {

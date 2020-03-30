@@ -79,6 +79,8 @@ QWidgetCentral::QWidgetCentral(QWidget *parent) : QMyWidget(parent)
     m_pDlgEnhancebar    = new QDlgEnhanceBar(this);
 
     XmlConfig::GetInstance()->setAppEventObj(this);
+
+    connect(XmlConfig::GetInstance(), SIGNAL(notifyEnterToolbar(QWidget*)), this, SLOT(onEnterToolbar(QWidget*)));
 }
 
 QWidgetCentral::~QWidgetCentral()
@@ -111,7 +113,7 @@ void QWidgetCentral::onClickBtn(QMyToolButton* pBtn)
         }else if( pBtn->getType() == MenuType_Zoom ){
             XmlConfig::GetInstance()->setAppEventObj(m_pDlgZoombar);
         }else if( pBtn->getType() == MenuType_CamBtnSet ){
-
+            XmlConfig::GetInstance()->setAppEventObj(m_pDlgCamBtnSet);
         }else if( pBtn->getType() == Menutype_Show ){
 
         }else if( pBtn->getType() == Menutype_Brightness ){
@@ -304,6 +306,13 @@ void QWidgetCentral::onWheel(QObject* pObj,int iStep)
     }
     ScrollToolButton(-iStep);
 }
+
+void QWidgetCentral::onEnterToolbar(QWidget* pObj)
+{
+    XmlConfig::GetInstance()->setAppEventObj(this);
+    m_pCurBtn->setFocusOn(true);
+}
+
 
 void QWidgetCentral::onKeyEnter(QObject* pObj)
 {

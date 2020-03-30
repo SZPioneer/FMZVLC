@@ -64,13 +64,14 @@ signals:
     void    changeBright(int iBright);
     void    changeZoom(int iZoomVal);
     void    changeMouseButtonConfig(ST_MouseButtonSet stConfig);
+    void    notifyEnterToolbar(QWidget*);
 
 public slots:
     void    onUdpData();
 
 
 private:
-    MapCamButtonSets    m_mapCamBtnSets;
+
     QUdpSocket*         m_pUdpSock          = NULL;
 
 public:
@@ -82,6 +83,7 @@ public:
     int                 m_iRightBtnShortVal = 0;
     int                 m_iRightBtnLongVal  = 0;
     ST_MouseButtonSet   m_stMouseBtnConfig;
+    MapCamButtonSets    m_mapCamBtnSets;
 };
 
 #endif // XMLCONFIG_H
