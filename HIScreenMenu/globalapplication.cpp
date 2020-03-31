@@ -21,7 +21,7 @@ bool GlobalApplication::notify(QObject *obj, QEvent *e)
         }
     }
     if( e->type() == QEvent::Wheel || e->type() == QEvent::KeyPress || e->type() == QEvent::MouseButtonPress )  {
-        QDBG << e->type();
+        //QDBG << e->type();
     }
 
     return QApplication::notify(obj,e);
@@ -40,7 +40,7 @@ void GlobalApplication::onWheel(QObject* pObj, QEvent* e)
 
     if (!numDegrees.isNull()) {
         QPoint      numSteps    = numDegrees / 15;
-        //qDebug()<<"numSteps:"<<numSteps;
+        qDebug()<<"numSteps:"<<numSteps<<pObj;
         emit XmlConfig::GetInstance()->notifyWheel(pObj, numSteps.y());
     }
 

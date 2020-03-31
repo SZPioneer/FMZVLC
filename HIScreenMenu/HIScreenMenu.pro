@@ -31,7 +31,8 @@ SOURCES += \
     qdlgpresetbar.cpp \
     qdlgenhancebar.cpp \
     globalapplication.cpp \
-    qmywidget.cpp
+    qmywidget.cpp \
+    qmycombobox.cpp
 
 HEADERS += \
     mainwindow.h \
@@ -47,7 +48,8 @@ HEADERS += \
     qdlgenhancebar.h \
     ../inc/public.h \
     globalapplication.h \
-    qmywidget.h
+    qmywidget.h \
+    qmycombobox.h
 
 FORMS += \
     mainwindow.ui \

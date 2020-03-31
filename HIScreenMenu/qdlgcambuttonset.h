@@ -2,7 +2,7 @@
 #define QDLGCAMBUTTONSET_H
 
 #include "qmywidget.h"
-
+#include "../inc/public.h"
 
 namespace Ui {
     class QDlgCamButtonSet;
@@ -14,6 +14,7 @@ public:
     explicit QDlgCamButtonSet(QWidget *parent = nullptr);
 
     virtual void    setFocusOn(bool bFocus);
+    void            onSet();
 
 protected:
     virtual void    paintEvent(QPaintEvent *event) override;
@@ -37,6 +38,7 @@ private:
     Ui::QDlgCamButtonSet*       ui;
     int                         m_iStepPos          = 0;
     int                         m_iStepMax          = 7;
+    ST_MouseButtonSet           m_stMouseBtnSet;
 };
 
 #endif // QDLGCAMBUTTONSET_H

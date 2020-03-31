@@ -37,7 +37,8 @@ public:
         }
     }
 
-    void    setAppEventObj(QObject* pObj);
+    void    setAppEventObjForCombo(QObject* pObj);
+    void    setAppEventObj(QObject* pObj, bool bComboNew=false, bool bComboOld=false);
 
     int     zoomStep()
     {
@@ -52,6 +53,8 @@ public:
     }
     void     onClickBrightAdd();
     void     onClickBrightMinus();
+
+
 
     int     netGetZoomValue();
     int     netSetZoomValue(int iVal);
@@ -78,10 +81,6 @@ public:
     QObject*            m_pEventObj         = NULL;
     int                 m_iZoomStep         = 0;            //0=<val<=5
     int                 m_iBrightStep       = 0;            //0,5
-    int                 m_iLeftBtnShortVal  = 0;
-    int                 m_iLeftBtnLongVal   = 0;
-    int                 m_iRightBtnShortVal = 0;
-    int                 m_iRightBtnLongVal  = 0;
     ST_MouseButtonSet   m_stMouseBtnConfig;
     MapCamButtonSets    m_mapCamBtnSets;
 };

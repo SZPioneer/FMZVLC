@@ -21,10 +21,18 @@ QDlgCamButtonSet::QDlgCamButtonSet(QWidget *parent) : QMyWidget(parent), ui(new 
         ui->comboBox_right2->addItem(iter.value(), QVariant(iter.key()));
 
     }
-    ui->comboBox_left1->setCurrentIndex(0);
-    ui->comboBox_left2->setCurrentIndex(0);
-    ui->comboBox_right1->setCurrentIndex(0);
-    ui->comboBox_right2->setCurrentIndex(0);
+    ui->comboBox_left1->setCurrentIndex(XmlConfig::GetInstance()->m_stMouseBtnConfig.iLeftShortPress);
+    ui->comboBox_left2->setCurrentIndex(XmlConfig::GetInstance()->m_stMouseBtnConfig.iLeftLongPress);
+    ui->comboBox_right1->setCurrentIndex(XmlConfig::GetInstance()->m_stMouseBtnConfig.iRightShortPress);
+    ui->comboBox_right2->setCurrentIndex(XmlConfig::GetInstance()->m_stMouseBtnConfig.iRightLongPress);
+    memcpy(&m_stMouseBtnSet, &(XmlConfig::GetInstance()->m_stMouseBtnConfig), sizeof(ST_MouseButtonSet));
+
+    ui->comboBox_left1->setMyParent(this);
+    ui->comboBox_left2->setMyParent(this);
+    ui->comboBox_right1->setMyParent(this);
+    ui->comboBox_right2->setMyParent(this);
+
+
 }
 
 void QDlgCamButtonSet::setFocusOn(bool bFocus)
@@ -87,22 +95,22 @@ void QDlgCamButtonSet::paintEvent(QPaintEvent *event)
 
 void QDlgCamButtonSet::on_comboBox_left1_currentIndexChanged(int index)
 {
-
+    m_stMouseBtnSet.iLeftShortPress        = index;
 }
 
 void QDlgCamButtonSet::on_comboBox_left2_currentIndexChanged(int index)
 {
-
+    m_stMouseBtnSet.iLeftLongPress        = index;
 }
 
 void QDlgCamButtonSet::on_comboBox_right1_currentIndexChanged(int index)
 {
-
+    m_stMouseBtnSet.iRightShortPress        = index;
 }
 
 void QDlgCamButtonSet::on_comboBox_right2_currentIndexChanged(int index)
 {
-
+    m_stMouseBtnSet.iRightLongPress        = index;
 }
 
 void QDlgCamButtonSet::onWheel(QObject* pObj,int iStep)
@@ -131,5 +139,25 @@ void QDlgCamButtonSet::onKeyEnter(QObject* pObj)
         return;
     }
 
-    emit XmlConfig::GetInstance()->notifyEnterToolbar(this);
+    if( m_iStepPos == 6 ){
+        emit XmlConfig::GetInstance()->notifyEnterToolbar(this);
+    }else if( m_iStepPos == 0 ){
+        qDebug()<<"lef1:"<<ui->comboBox_left1;
+        XmlConfig::GetInstance()->setAppEventObj(ui->comboBox_left1, true, false);
+    }else if( m_iStepPos == 1 ){
+        XmlConfig::GetInstance()->setAppEventObj(ui->comboBox_left2, true, false);
+    }else if( m_iStepPos == 2 ){
+        XmlConfig::GetInstance()->setAppEventObj(ui->comboBox_right1, true, false);
+    }else if( m_iStepPos == 3 ){
+        XmlConfig::GetInstance()->setAppEventObj(ui->comboBox_right2, true, false);
+    }else if( m_iStepPos == 4 ){
+
+    }else if( m_iStepPos == 5 ){
+
+    }
+}
+
+void QDlgCamButtonSet::onSet()
+{
+
 }

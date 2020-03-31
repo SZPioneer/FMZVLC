@@ -8,6 +8,7 @@
 #include <QNetworkDatagram>
 #include "globalapplication.h"
 #include "qmywidget.h"
+#include "qmycombobox.h"
 
 XmlConfig*       XmlConfig::s_pInst     = NULL;
 XmlConfig::XmlConfig(QObject *parent) : QObject(parent)
@@ -26,7 +27,7 @@ void XmlConfig::Init()
     netGetZoomValue();
 }
 
-void XmlConfig::setAppEventObj(QObject* pObj)
+void XmlConfig::setAppEventObjForCombo(QObject* pObj)
 {
     if( m_pEventObj == pObj ){
         return;
@@ -36,8 +37,33 @@ void XmlConfig::setAppEventObj(QObject* pObj)
         m_pEventObj     = NULL;
     }
     m_pEventObj     = pObj;
-    ((QMyWidget*)pObj)->setFocusOn(true);
-    ((QMyWidget*)pObj)->update();
+    ((QMyComboBox*)pObj)->setFocusOn(true);
+    ((QMyComboBox*)pObj)->update();
+}
+
+void XmlConfig::setAppEventObj(QObject* pObj, bool bComboNew/*=false*/, bool bComboOld/*=false*/)
+{
+    qDebug()<<"xml setEventObj:"<<pObj;
+    if( m_pEventObj == pObj ){
+        return;
+    }
+    if( m_pEventObj ){
+        if( bComboOld ){
+             ((QMyComboBox*)m_pEventObj)->setFocusOn(false);
+        }else{
+            ((QMyWidget*)m_pEventObj)->setFocusOn(false);
+        }
+        m_pEventObj     = NULL;
+    }
+    m_pEventObj     = pObj;
+
+    if( bComboNew ){
+        ((QMyComboBox*)pObj)->setFocusOn(true);
+        ((QMyComboBox*)pObj)->update();
+    }else{
+        ((QMyWidget*)pObj)->setFocusOn(true);
+        ((QMyWidget*)pObj)->update();
+    }
 }
 
 void XmlConfig::onUdpData()
