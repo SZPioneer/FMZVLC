@@ -32,7 +32,8 @@ SOURCES += \
     qdlgenhancebar.cpp \
     globalapplication.cpp \
     qmywidget.cpp \
-    qmycombobox.cpp
+    qmycombobox.cpp \
+    qwidgetpicinpicbar.cpp
 
 HEADERS += \
     mainwindow.h \
@@ -49,7 +50,8 @@ HEADERS += \
     ../inc/public.h \
     globalapplication.h \
     qmywidget.h \
-    qmycombobox.h
+    qmycombobox.h \
+    qwidgetpicinpicbar.h
 
 FORMS += \
     mainwindow.ui \
@@ -57,7 +59,8 @@ FORMS += \
     qdlgcambuttonset.ui \
     qdlgdisplay.ui \
     qdlgpresetbar.ui \
-    qdlgenhancebar.ui
+    qdlgenhancebar.ui \
+    qwidgetpicinpicbar.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

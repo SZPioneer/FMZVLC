@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>340</width>
+    <width>328</width>
     <height>300</height>
    </rect>
   </property>
@@ -38,12 +38,12 @@
     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
    </property>
   </widget>
-  <widget class="QComboBox" name="comboBox_main_pic">
+  <widget class="QMyComboBox" name="comboBox_main_pic">
    <property name="geometry">
     <rect>
      <x>160</x>
      <y>28</y>
-     <width>129</width>
+     <width>151</width>
      <height>28</height>
     </rect>
    </property>
@@ -63,12 +63,12 @@
 background-color: rgb(0, 0, 127);</string>
    </property>
   </widget>
-  <widget class="QComboBox" name="comboBox_subPic_inPic">
+  <widget class="QMyComboBox" name="comboBox_subPic_inPic">
    <property name="geometry">
     <rect>
      <x>160</x>
      <y>76</y>
-     <width>129</width>
+     <width>151</width>
      <height>28</height>
     </rect>
    </property>
@@ -88,12 +88,12 @@ background-color: rgb(0, 0, 127);</string>
 background-color: rgb(0, 0, 127);</string>
    </property>
   </widget>
-  <widget class="QComboBox" name="comboBox_pointGrid">
+  <widget class="QMyComboBox" name="comboBox_pointGrid">
    <property name="geometry">
     <rect>
      <x>160</x>
      <y>169</y>
-     <width>129</width>
+     <width>151</width>
      <height>28</height>
     </rect>
    </property>
@@ -113,12 +113,12 @@ background-color: rgb(0, 0, 127);</string>
 background-color: rgb(0, 0, 127);</string>
    </property>
   </widget>
-  <widget class="QComboBox" name="comboBox_gridVis">
+  <widget class="QMyComboBox" name="comboBox_gridVis">
    <property name="geometry">
     <rect>
      <x>160</x>
      <y>220</y>
-     <width>129</width>
+     <width>151</width>
      <height>28</height>
     </rect>
    </property>
@@ -143,7 +143,7 @@ background-color: rgb(0, 0, 127);</string>
     <rect>
      <x>160</x>
      <y>124</y>
-     <width>41</width>
+     <width>31</width>
      <height>25</height>
     </rect>
    </property>
@@ -154,9 +154,9 @@ background-color: rgb(0, 0, 127);</string>
   <widget class="QWidget" name="widget_inPic2" native="true">
    <property name="geometry">
     <rect>
-     <x>210</x>
+     <x>200</x>
      <y>124</y>
-     <width>41</width>
+     <width>31</width>
      <height>25</height>
     </rect>
    </property>
@@ -167,9 +167,9 @@ background-color: rgb(0, 0, 127);</string>
   <widget class="QWidget" name="widget_inPic3" native="true">
    <property name="geometry">
     <rect>
-     <x>260</x>
+     <x>240</x>
      <y>124</y>
-     <width>41</width>
+     <width>31</width>
      <height>25</height>
     </rect>
    </property>
@@ -177,7 +177,7 @@ background-color: rgb(0, 0, 127);</string>
     <string notr="true">background-color: rgb(161, 161, 161);</string>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>40</x>
@@ -284,7 +284,27 @@ background-color: rgb(0, 0, 127);</string>
     </item>
    </layout>
   </widget>
+  <widget class="QWidget" name="widget_inPic4" native="true">
+   <property name="geometry">
+    <rect>
+     <x>280</x>
+     <y>124</y>
+     <width>31</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(161, 161, 161);</string>
+   </property>
+  </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QMyComboBox</class>
+   <extends>QComboBox</extends>
+   <header location="global">qmycombobox.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

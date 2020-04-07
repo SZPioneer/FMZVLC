@@ -33,7 +33,7 @@ protected:
 
 signals:
 public slots:
-    void    onClickBtn(QMyToolButton* pBtn);
+    void    onClickBtn(QMyToolButton* pBtn, bool bWheel=false);
     void    onClickDown(bool);
     void    onClickUp(bool);
     void    onEnterToolbar(QWidget*);

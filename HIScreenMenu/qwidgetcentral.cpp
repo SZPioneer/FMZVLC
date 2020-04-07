@@ -105,8 +105,13 @@ QWidgetCentral::~QWidgetCentral()
     }
 }
 
-void QWidgetCentral::onClickBtn(QMyToolButton* pBtn)
+void QWidgetCentral::onClickBtn(QMyToolButton* pBtn, bool bWheel/*=false*/)
 {
+    if( bWheel ){
+        if( pBtn->isSelect() ){
+            return;
+        }
+    }
     if( pBtn->isSelect() ){
         if( pBtn->getType() == MenuType_Exit ){
             qApp->quit();
@@ -115,7 +120,7 @@ void QWidgetCentral::onClickBtn(QMyToolButton* pBtn)
         }else if( pBtn->getType() == MenuType_CamBtnSet ){
             XmlConfig::GetInstance()->setAppEventObj(m_pDlgCamBtnSet);
         }else if( pBtn->getType() == Menutype_Show ){
-
+            XmlConfig::GetInstance()->setAppEventObj(m_pDlgDisplay);
         }else if( pBtn->getType() == Menutype_Brightness ){
 
         }else if( pBtn->getType() == MenuType_printNow ){
@@ -290,13 +295,14 @@ int QWidgetCentral::ScrollToolButton(int iStep)
         iCurStep    = m_lsMainBtn.size() -1;
     }
 
+    qDebug()<<"iCurStep:"<<iCurStep;
     if( iCurStep < m_iBtnShowPos ){
         onClickUp(false);
     }else if( iCurStep >= m_iBtnShowPos+m_iBtnShowNum ){
         onClickDown(false);
     }
 
-    onClickBtn(m_lsMainBtn.at(iCurStep));
+    onClickBtn(m_lsMainBtn.at(iCurStep), true);
 }
 
 void QWidgetCentral::onWheel(QObject* pObj,int iStep)
