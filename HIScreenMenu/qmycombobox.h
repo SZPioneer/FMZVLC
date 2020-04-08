@@ -21,6 +21,7 @@ signals:
 public slots:
     virtual void    onWheel(QObject*,int);
     virtual void    onKeyEnter(QObject*);
+    virtual void    onActivated(int iIdx);
 
 protected:
     bool            m_bFocusOn      = false;

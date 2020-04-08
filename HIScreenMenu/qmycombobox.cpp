@@ -7,7 +7,13 @@ QMyComboBox::QMyComboBox(QWidget *parent) : QComboBox(parent)
 {
     connect(XmlConfig::GetInstance(), SIGNAL(notifyWheel(QObject*,int)), this, SLOT(onWheel(QObject*,int)));
     connect(XmlConfig::GetInstance(), SIGNAL(notifyKeyEnter(QObject*)), this, SLOT(onKeyEnter(QObject*)));
+    connect(this, SIGNAL(activated(int)), this, SLOT(onActivated(int)));
+}
 
+void QMyComboBox::onActivated(int iIdx)
+{
+    XmlConfig::GetInstance()->setAppEventObj(m_pMyParent, false, true);
+    hidePopup();
 }
 
 void QMyComboBox::setFocusOn(bool bFocus)

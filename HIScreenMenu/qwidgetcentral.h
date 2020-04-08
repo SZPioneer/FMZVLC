@@ -31,6 +31,8 @@ protected:
     //virtual void paintEvent(QPaintEvent *event) override;
     virtual void keyPressEvent(QKeyEvent *event) override;
 
+    virtual void    setFocusOn(bool bFocus);
+
 signals:
 public slots:
     void    onClickBtn(QMyToolButton* pBtn, bool bWheel=false);

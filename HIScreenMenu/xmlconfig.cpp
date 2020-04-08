@@ -24,7 +24,10 @@ void XmlConfig::Init()
     m_pUdpSock->bind(QHostAddress::LocalHost, UDPPORT_SCREENMENU);
     connect(m_pUdpSock, SIGNAL(readyRead()), this, SLOT(onUdpData()));
 
+    connect(XmlConfig::GetInstance(), SIGNAL(notifyNowPrint()), this, SLOT(onNowPrint()));
+
     netGetZoomValue();
+    netGetBrightValue();
 }
 
 void XmlConfig::setAppEventObjForCombo(QObject* pObj)
@@ -66,6 +69,17 @@ void XmlConfig::setAppEventObj(QObject* pObj, bool bComboNew/*=false*/, bool bCo
     }
 }
 
+void XmlConfig::onNowPrint()
+{
+    char                szData[128]     = {0};
+    ST_NetProtocol*     pNet            = (ST_NetProtocol*)szData;
+
+    pNet->iCmd      = NetCmd_PrintNow_REQ;
+    pNet->iLenData  = 0;
+    m_pUdpSock->writeDatagram(szData, sizeof(ST_NetProtocol), QHostAddress("127.0.0.1"), UDPPORT_HI);
+
+}
+
 void XmlConfig::onUdpData()
 {
     while( m_pUdpSock->hasPendingDatagrams() ){
@@ -94,6 +108,21 @@ void XmlConfig::onUdpData()
         }else if( pNet->iCmd == NetCmd_GetMouseButtonConfig_RSP || pNet->iCmd == NetCmd_SetMouseButtonConfig_RSP ){
             memcpy(&m_stMouseBtnConfig, pNet->szData, pNet->iLenData);
 
+        }else if( pNet->iCmd == NetCmd_GetBright_RSP ){
+            int     iVal        = 0;
+            memcpy(&iVal, pNet->szData, pNet->iLenData);
+            m_iBrightStep     = iVal;
+
+            qDebug("cmd:%d, len:%d, val:%d", pNet->iCmd, pNet->iLenData, iVal);
+        }else if( pNet->iCmd == NetCmd_SetBright_RSP ){
+            int     iVal        = 0;
+            memcpy(&iVal, pNet->szData, pNet->iLenData);
+            m_iBrightStep     = iVal;
+            emit changeBright(m_iBrightStep);
+
+            qDebug("cmd:%d, len:%d, val:%d", pNet->iCmd, pNet->iLenData, iVal);
+        }else if( pNet->iCmd == NetCmd_PrintNow_RSP ){
+            qDebug("cmd:%d, len:%d,", pNet->iCmd, pNet->iLenData);
         }
     }
 }
@@ -129,6 +158,58 @@ int XmlConfig::readConfig()
     QDomNamedNodeMap    attrs;
     QDomElement         root            = doc.documentElement();
     QDomNode            comBtnSet       = root.firstChildElement("CamButtonSet");
+    QDomNode            enhanceSet      = root.firstChildElement("EnhanceSet");
+    QDomNode            preSet          = root.firstChildElement("PreSet");
+
+    if( !preSet.isNull() ){
+        QDomNode    SetItems            = preSet.firstChildElement("PreItems");
+        if( !SetItems.isNull() ){
+            QDomNode        item        = SetItems.firstChildElement("Item");
+            while( !item.isNull() ){
+                qstrVal      = item.toElement().text();
+                attrs        = item.attributes();
+                for(int i=0;i<attrs.size();i++){
+                    attrNode    = attrs.item(i);
+                    if( attrNode.nodeName() == "val" ){
+                        qstrAttr             = attrNode.nodeValue();
+                    }
+                }
+                m_mapPreSets[qstrAttr.toInt()]        = qstrVal;
+
+                item         = item.nextSibling();
+            }
+
+            QDomNode        CurSetVal       = enhanceSet.firstChildElement("CurSetVal");
+            if( !CurSetVal.isNull() ){
+                m_iPreSet          = CurSetVal.toElement().text().toInt();
+            }
+        }
+    }
+
+    if( !enhanceSet.isNull() ){
+        QDomNode    SetItems            = enhanceSet.firstChildElement("SetItems");
+        if( !SetItems.isNull() ){
+            QDomNode        item        = SetItems.firstChildElement("Item");
+            while( !item.isNull() ){
+                qstrVal      = item.toElement().text();
+                attrs        = item.attributes();
+                for(int i=0;i<attrs.size();i++){
+                    attrNode    = attrs.item(i);
+                    if( attrNode.nodeName() == "val" ){
+                        qstrAttr             = attrNode.nodeValue();
+                    }
+                }
+                m_mapEnhanceSets[qstrAttr.toInt()]        = qstrVal;
+
+                item         = item.nextSibling();
+            }
+
+            QDomNode        CurSetVal       = enhanceSet.firstChildElement("CurSetVal");
+            if( !CurSetVal.isNull() ){
+                m_iEnhance          = CurSetVal.toElement().text().toInt();
+            }
+        }
+    }
 
     if( !comBtnSet.isNull() ){
        QDomNode     ButtonSetItems      = comBtnSet.firstChildElement("ButtonSetItems");
@@ -222,19 +303,50 @@ void XmlConfig::onClickZoomMinus()
 
 void XmlConfig::onClickBrightAdd()
 {
-    m_iBrightStep++;
-    if( m_iBrightStep >= 5 ){
-        m_iBrightStep     = 5;
+    int     iTmp        = m_iBrightStep;
+    iTmp++;
+    if( iTmp >= 5 ){
+        iTmp     = 5;
     }
+
+    netSetBrightValue(iTmp);
 
 }
 void XmlConfig::onClickBrightMinus()
 {
-    m_iBrightStep--;
-    if( m_iBrightStep <=0 ){
-        m_iBrightStep     = 0;
+    int     iTmp        = m_iBrightStep;
+    iTmp--;
+    if( iTmp <=0 ){
+        iTmp     = 0;
     }
 
+    netSetBrightValue(iTmp);
+}
+
+int XmlConfig::netGetBrightValue()
+{
+    char                szData[128]     = {0};
+    ST_NetProtocol*     pNet            = (ST_NetProtocol*)szData;
+
+    pNet->iCmd      = NetCmd_GetBright_REQ;
+    pNet->iLenData  = 0;
+    m_pUdpSock->writeDatagram(szData, sizeof(ST_NetProtocol), QHostAddress("127.0.0.1"), UDPPORT_HI);
+    return 0;
+}
+
+int XmlConfig::netSetBrightValue(int iVal)
+{
+    char                szData[128]     = {0};
+    ST_NetProtocol*     pNet            = (ST_NetProtocol*)szData;
+    int                 iLen            = 0;
+
+    pNet->iCmd      = NetCmd_SetBright_REQ;
+    pNet->iLenData  = sizeof(int);
+    memcpy(pNet->szData, &iVal, sizeof(iVal));
+
+    iLen        = sizeof(ST_NetProtocol) + pNet->iLenData;
+    m_pUdpSock->writeDatagram(szData, iLen, QHostAddress("127.0.0.1"), UDPPORT_HI);
+    return 0;
 }
 
 int XmlConfig::netGetZoomValue()

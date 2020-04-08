@@ -60,7 +60,8 @@ FORMS += \
     qdlgdisplay.ui \
     qdlgpresetbar.ui \
     qdlgenhancebar.ui \
-    qwidgetpicinpicbar.ui
+    qwidgetpicinpicbar.ui \
+    qdlgbrightbar.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

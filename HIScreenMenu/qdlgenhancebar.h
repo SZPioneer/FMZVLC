@@ -1,17 +1,20 @@
 #ifndef QDLGENHANCEBAR_H
 #define QDLGENHANCEBAR_H
 
-#include <QDialog>
+#include "qmywidget.h"
 
 namespace Ui {
    class QDlgEnhancebar;
 }
 
-class QDlgEnhanceBar : public QDialog
+class QDlgEnhanceBar : public QMyWidget
 {
     Q_OBJECT
 public:
     explicit QDlgEnhanceBar(QWidget *parent = nullptr);
+
+    virtual void    setFocusOn(bool bFocus);
+
 
 protected:
     virtual void    paintEvent(QPaintEvent *event) override;
@@ -19,6 +22,8 @@ protected:
 signals:
 
 public slots:
+    virtual void    onWheel(QObject*,int);
+    virtual void    onKeyEnter(QObject*);
 
 private:
     Ui::QDlgEnhancebar*         ui;

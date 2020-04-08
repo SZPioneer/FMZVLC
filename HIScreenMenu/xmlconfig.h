@@ -9,6 +9,8 @@
 
 
 typedef QMap<int,QString>       MapCamButtonSets;
+typedef QMap<int,QString>       MapEnhanceSets;
+typedef QMap<int,QString>       MapPreSets;
 class XmlConfig : public QObject
 {
     Q_OBJECT
@@ -60,6 +62,8 @@ public:
     int     netSetZoomValue(int iVal);
     int     netGetMouseButtonConfig();
     int     netSetMouseButtonConfig(ST_MouseButtonSet& stSet);
+    int     netGetBrightValue();
+    int     netSetBrightValue(int iVal);
 
 signals:
     void    notifyKeyEnter(QObject*);
@@ -68,10 +72,11 @@ signals:
     void    changeZoom(int iZoomVal);
     void    changeMouseButtonConfig(ST_MouseButtonSet stConfig);
     void    notifyEnterToolbar(QWidget*);
+    void    notifyNowPrint();
 
 public slots:
     void    onUdpData();
-
+    void    onNowPrint();
 
 private:
 
@@ -83,6 +88,10 @@ public:
     int                 m_iBrightStep       = 0;            //0,5
     ST_MouseButtonSet   m_stMouseBtnConfig;
     MapCamButtonSets    m_mapCamBtnSets;
+    MapEnhanceSets      m_mapEnhanceSets;
+    int                 m_iEnhance          = 0;
+    MapPreSets          m_mapPreSets;
+    int                 m_iPreSet           = 0;
 };
 
 #endif // XMLCONFIG_H

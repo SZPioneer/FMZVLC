@@ -105,6 +105,17 @@ QWidgetCentral::~QWidgetCentral()
     }
 }
 
+void QWidgetCentral::setFocusOn(bool bFocus)
+{
+    QMyWidget::setFocusOn(bFocus);
+    if( bFocus ){
+        if( m_pCurBtn ){
+            m_pCurBtn->setSelect(true);
+            m_pCurBtn->setFocusOn(true);
+        }
+    }
+}
+
 void QWidgetCentral::onClickBtn(QMyToolButton* pBtn, bool bWheel/*=false*/)
 {
     if( bWheel ){
@@ -113,6 +124,7 @@ void QWidgetCentral::onClickBtn(QMyToolButton* pBtn, bool bWheel/*=false*/)
         }
     }
     if( pBtn->isSelect() ){
+        bool        bFocus      = false;
         if( pBtn->getType() == MenuType_Exit ){
             qApp->quit();
         }else if( pBtn->getType() == MenuType_Zoom ){
@@ -122,15 +134,16 @@ void QWidgetCentral::onClickBtn(QMyToolButton* pBtn, bool bWheel/*=false*/)
         }else if( pBtn->getType() == Menutype_Show ){
             XmlConfig::GetInstance()->setAppEventObj(m_pDlgDisplay);
         }else if( pBtn->getType() == Menutype_Brightness ){
-
+            XmlConfig::GetInstance()->setAppEventObj(m_pDlgBrightbar);
         }else if( pBtn->getType() == MenuType_printNow ){
-
+            emit XmlConfig::GetInstance()->notifyNowPrint();
+            bFocus      = true;
         }else if( pBtn->getType() == MenyType_Preset ){
-
+            XmlConfig::GetInstance()->setAppEventObj(m_pDlgPresetbar);
         }else if( pBtn->getType() == MenuType_Video ){
 
         }else if( pBtn->getType() == MenuType_Enhance ){
-
+            XmlConfig::GetInstance()->setAppEventObj(m_pDlgEnhancebar);
         }else if( pBtn->getType() == MenuType_WhiteBalance ){
 
         }else if( pBtn->getType() == MenuType_LightSrc ){
@@ -141,7 +154,7 @@ void QWidgetCentral::onClickBtn(QMyToolButton* pBtn, bool bWheel/*=false*/)
 
         }
         qDebug()<<"current thread:"<<QThread::currentThreadId();
-        pBtn->setFocusOn(false);
+        pBtn->setFocusOn(bFocus);
 
     }else{
         if( pBtn == m_pCurBtn ){
@@ -152,8 +165,8 @@ void QWidgetCentral::onClickBtn(QMyToolButton* pBtn, bool bWheel/*=false*/)
             return;
         }
         if( m_pCurBtn ){
-            m_pCurBtn->setSelect(false);
             HideToolbar();
+            m_pCurBtn->setSelect(false);
         }
         m_pCurBtn       = pBtn;
         m_pCurBtn->setSelect(true);

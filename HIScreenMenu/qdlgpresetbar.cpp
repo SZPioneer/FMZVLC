@@ -3,7 +3,7 @@
 #include <QPainter>
 #include "xmlconfig.h"
 
-QDlgPresetBar::QDlgPresetBar(QWidget *parent) : QDialog(parent), ui(new Ui::QDlgPresetBar)
+QDlgPresetBar::QDlgPresetBar(QWidget *parent) : QMyWidget(parent), ui(new Ui::QDlgPresetBar)
 {
     ui->setupUi(this);
 
@@ -12,9 +12,20 @@ QDlgPresetBar::QDlgPresetBar(QWidget *parent) : QDialog(parent), ui(new Ui::QDlg
     this->setAttribute(Qt::WA_TranslucentBackground);
     setFixedSize(180,40);
 
-    ui->comboBox_preset->addItem("无");
-    ui->comboBox_preset->addItem("有");
-    ui->comboBox_preset->setCurrentIndex(0);
+    MapPreSets        mapSets     = XmlConfig::GetInstance()->m_mapPreSets;
+    for(MapPreSets::iterator iter=mapSets.begin();iter!=mapSets.end();iter++){
+        ui->comboBox_preset->addItem(iter.value(), QVariant(iter.key()));
+    }
+    ui->comboBox_preset->setCurrentIndex(XmlConfig::GetInstance()->m_iPreSet);
+
+    ui->comboBox_preset->setMyParent(parent);
+}
+
+void QDlgPresetBar::setFocusOn(bool bFocus)
+{
+    if( bFocus ){
+        XmlConfig::GetInstance()->setAppEventObj(ui->comboBox_preset, true, false);
+    }
 }
 
 void QDlgPresetBar::paintEvent(QPaintEvent *event)
