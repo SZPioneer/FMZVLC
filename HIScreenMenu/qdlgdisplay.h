@@ -24,6 +24,7 @@ signals:
 public slots:
     virtual void    onWheel(QObject*,int);
     virtual void    onKeyEnter(QObject*);
+    void on_pushButton_exit_clicked();
 
 private:
     Ui::QDlgDisplay*            ui;

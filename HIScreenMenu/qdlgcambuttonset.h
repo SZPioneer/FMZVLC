@@ -34,6 +34,12 @@ private slots:
 
     void on_comboBox_right2_currentIndexChanged(int index);
 
+    void on_pushButton_userMenu_clicked();
+
+    void on_pushButton_set_clicked();
+
+    void on_pushButton_exit_clicked();
+
 private:
     Ui::QDlgCamButtonSet*       ui;
     int                         m_iStepPos          = 0;

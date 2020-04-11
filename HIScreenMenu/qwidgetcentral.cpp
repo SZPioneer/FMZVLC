@@ -359,11 +359,13 @@ void QWidgetCentral::wheelEvent(QWheelEvent *event)
     event->accept();
 }
 
-//void QWidgetCentral::paintEvent(QPaintEvent *event)
-//{
-//    QPainter painter(this);
-//    painter.fillRect(rect(), QColor(0,0,255,1));
-//}
+void QWidgetCentral::paintEvent(QPaintEvent *event)
+{
+#if 1
+    QPainter painter(this);
+    painter.fillRect(rect(), QColor(0,0,255,1));
+#endif
+}
 
 void QWidgetCentral::keyPressEvent(QKeyEvent *event)
 {

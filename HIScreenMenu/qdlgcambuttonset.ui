@@ -312,6 +312,78 @@ background-color: rgb(0, 0, 127);</string>
     </item>
    </layout>
   </widget>
+  <widget class="QPushButton" name="pushButton_userMenu">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>184</y>
+     <width>101</width>
+     <height>34</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(29,59,140);
+color: rgb(255, 255, 255);
+border:none;</string>
+   </property>
+   <property name="text">
+    <string>用户菜单</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_set">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>227</y>
+     <width>101</width>
+     <height>34</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(29,59,140);
+color: rgb(255, 255, 255);
+border:none</string>
+   </property>
+   <property name="text">
+    <string>设置</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_exit">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>271</y>
+     <width>101</width>
+     <height>34</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑</family>
+     <pointsize>18</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(29,59,140);
+color: rgb(255, 255, 255);
+border:none</string>
+   </property>
+   <property name="text">
+    <string>退出</string>
+   </property>
+  </widget>
  </widget>
  <customwidgets>
   <customwidget>

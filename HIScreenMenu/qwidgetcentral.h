@@ -28,7 +28,7 @@ private:
 protected:
     virtual void resizeEvent(QResizeEvent *event) override;
     virtual void wheelEvent(QWheelEvent *event) override;
-    //virtual void paintEvent(QPaintEvent *event) override;
+    virtual void paintEvent(QPaintEvent *event) override;
     virtual void keyPressEvent(QKeyEvent *event) override;
 
     virtual void    setFocusOn(bool bFocus);

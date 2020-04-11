@@ -35,6 +35,8 @@ QDlgDisplay::QDlgDisplay(QWidget *parent) : QMyWidget(parent), ui(new Ui::QDlgDi
 
     m_pPicInPicbar      = new QWidgetPicInPicbar(this);
     m_pPicInPicbar->move(ui->widget_inPic1->pos());
+
+    ui->label_exit->hide();
 }
 
 void QDlgDisplay::setFocusOn(bool bFocus)
@@ -76,9 +78,9 @@ void QDlgDisplay::paintEvent(QPaintEvent *event)
             pt1             = ui->label_center1->mapTo(this, QPoint(rcItem.left(),rcItem.top()));
             pt2             = ui->label_center1->mapTo(this, QPoint(rcItem.right(),rcItem.bottom()));
         }else if( m_iStepPos == 5 ){
-            rcItem          = ui->label_exit->rect();
-            pt1             = ui->label_exit->mapTo(this, QPoint(rcItem.left(),rcItem.top()));
-            pt2             = ui->label_exit->mapTo(this, QPoint(rcItem.right(),rcItem.bottom()));
+            rcItem          = ui->pushButton_exit->rect();
+            pt1             = ui->pushButton_exit->mapTo(this, QPoint(rcItem.left(),rcItem.top()));
+            pt2             = ui->pushButton_exit->mapTo(this, QPoint(rcItem.right(),rcItem.bottom()));
         }
         rcItem.setLeft(0);
         rcItem.setRight(width());
@@ -130,4 +132,9 @@ void QDlgDisplay::onKeyEnter(QObject* pObj)
     }else if( m_iStepPos == 4 ){
         XmlConfig::GetInstance()->setAppEventObj(ui->comboBox_gridVis, true, false);
     }
+}
+
+void QDlgDisplay::on_pushButton_exit_clicked()
+{
+    emit XmlConfig::GetInstance()->notifyEnterToolbar(this);
 }

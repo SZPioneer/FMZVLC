@@ -32,6 +32,10 @@ QDlgCamButtonSet::QDlgCamButtonSet(QWidget *parent) : QMyWidget(parent), ui(new 
     ui->comboBox_right1->setMyParent(this);
     ui->comboBox_right2->setMyParent(this);
 
+    ui->label_userMenu->hide();
+    ui->label_set->hide();
+    ui->label_exit->hide();
+
 
 }
 
@@ -153,11 +157,26 @@ void QDlgCamButtonSet::onKeyEnter(QObject* pObj)
     }else if( m_iStepPos == 4 ){
 
     }else if( m_iStepPos == 5 ){
-
+        onSet();
     }
 }
 
 void QDlgCamButtonSet::onSet()
 {
 
+}
+
+void QDlgCamButtonSet::on_pushButton_userMenu_clicked()
+{
+
+}
+
+void QDlgCamButtonSet::on_pushButton_set_clicked()
+{
+    onSet();
+}
+
+void QDlgCamButtonSet::on_pushButton_exit_clicked()
+{
+    emit XmlConfig::GetInstance()->notifyEnterToolbar(this);
 }
