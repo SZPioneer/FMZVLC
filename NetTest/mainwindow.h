@@ -26,6 +26,7 @@ private:
 
 private:
     int             m_iZoomVal          = 0;
+    int             m_iBrightVal        = 0;
 };
 
 #endif // MAINWINDOW_H

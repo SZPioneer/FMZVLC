@@ -49,6 +49,25 @@ void MainWindow::onMenuUdpData()
             }
             m_iZoomVal          = iTmp;
             memcpy(pNetSend->szData, &m_iZoomVal, sizeof(int));
+        }else if( pNet->iCmd == NetCmd_GetBright_REQ ){
+            pNetSend->iCmd          = NetCmd_GetBright_RSP;
+            pNetSend->iLenData      = sizeof(int);
+
+            memcpy(pNetSend->szData, &m_iBrightVal, sizeof(int));
+        }else if( pNet->iCmd == NetCmd_SetBright_REQ ){
+            pNetSend->iCmd          = NetCmd_SetBright_RSP;
+            pNetSend->iLenData      = sizeof(int);
+
+            int         iTmp        = 0;
+            memcpy(&iTmp, pNet->szData, sizeof(int));
+            if( iTmp < 0 || iTmp > 5 ){
+                break;
+            }
+            m_iBrightVal          = iTmp;
+            memcpy(pNetSend->szData, &m_iBrightVal, sizeof(int));
+        }else if( pNet->iCmd == NetCmd_PrintNow_REQ ){
+            pNetSend->iCmd          = NetCmd_PrintNow_RSP;
+            pNetSend->iLenData      = 0;
         }
 
         iSendLen            = sizeof(ST_NetProtocol)+pNetSend->iLenData;
